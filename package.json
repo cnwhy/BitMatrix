@@ -1,0 +1,18 @@
+{
+  "name": "bitmatrix",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/BitMatrix.js",
+  "module": "src/BitMatrix.ts",
+  "scripts": {
+    "test": "node test/",
+    "menu": "node --expose-gc test/benchmark/menu.js",
+    "benchmark": "node test/benchmark"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "benchmark": "^2.1.4",
+    "typescript": "^3.3.4000"
+  }
+}
