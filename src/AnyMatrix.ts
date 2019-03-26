@@ -107,5 +107,18 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 		}
 		return view.join('\n');
 	}
+	static getTypedMatrixClass(TypedArrayClass:any){
+		let  name = TypedArrayClass.name.replace('Array','Matrix')
+		return class extends AnyMatrix {
+			static className:string = name;
+			_data: any | any[];
+			constructor(width: number, height: number) {
+				super(width, height);
+			}
+			_dataInit() {
+				this._data = new TypedArrayClass(this.total);
+			}
+		}
+	}
 }
-export default AnyMatrix;
+export = AnyMatrix;

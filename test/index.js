@@ -21,7 +21,7 @@ const s0 = (function() {
 let matrixs = allClass.map(M => new M(x, y));
 
 let vs = matrixs.map((m, i) => {
-	console.log(allClass[i].name);
+	console.log(allClass[i].className || allClass[i].name);
 	let s = '';
 	m.fill(0);
 	m.cellForEach((v, x, y) => {

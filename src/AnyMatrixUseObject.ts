@@ -40,9 +40,6 @@ class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
 			throw RangeError('y out of range');
 		}
 		return this._data[y * this.width + x];
-		// let { index, offset } = this.getIndex(x, y);
-		// // console.log(index, offset);
-		// return !!((1 << offset) & this.byteArray[index]);
 	}
 	set(x, y, v) {
 		if (x < 0 || x > this.width - 1) {
@@ -118,4 +115,4 @@ class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
 		return str;
 	}
 }
-export default AnyMatrixUseObject;
+export = AnyMatrixUseObject;

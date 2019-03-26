@@ -14,4 +14,4 @@ declare class AnyMatrixUseMap extends Matrix implements Matrix.cmd {
     cellForEach(fn: any): void;
     showView(): string;
 }
-export default AnyMatrixUseMap;
+export = AnyMatrixUseMap;

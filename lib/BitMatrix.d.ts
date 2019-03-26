@@ -18,4 +18,4 @@ declare class BitMatrix extends Matrix implements Matrix.cmd {
     private getIndex;
     private getPosition;
 }
-export default BitMatrix;
+export = BitMatrix;

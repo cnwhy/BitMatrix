@@ -209,48 +209,4 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 		return [(n - 1) % this.width, Math.ceil(n / this.width) - 1];
 	}
 }
-// module.exports =  BitMatrix
-export default BitMatrix;
-// module.exports = BitMatrix;
-// let m = new BitMatrix(10, 10);
-// m.set(0, 0, true);
-// m.set(1, 0, true);
-// m.set(2, 0, true);
-// m.set(3, 0, true);
-// m.set(4, 0, true);
-// m.set(7, 0, true);
-// m.set(8, 0, true);
-// m.set(9, 0, true);
-// m.set(9, 9, true);
-// // m.set(9, 10, true);
-// // console.log(m.byteArray[0].toString(2).padStart(8,'0'))
-// console.log(
-// 	m.byteArray.reduce((a, b) => {
-// 		return a + b.toString(2).padStart(8, '0');
-// 	}, '')
-// );
-// let log = '';
-// m.cellForEach((v, x, y) => {
-// 	log += v ? '1' : '0';
-// 	// console.log(x, y);
-// });
-// console.log(log);
-// var log1 = ''
-// for(var y=0; y<10; y++){
-// 	for(var x=0; x<10; x++){
-// 		log1 += m.get(x,y) ? '1' : '0'
-// 	}
-// }
-// console.log(log1);
-
-// // m.set(0,0,false);
-// // m.set(4,0,false);
-// // m.set(7,0,false);
-// // m.set(9,9,true);
-// // m.set(9,9,true);
-// // // console.log(m.byteArray[0].toString(2).padStart(8,'0'))
-// // console.log(m.byteArray.reduce((a,b)=>{return a + b.toString(2).padStart(8,'0')},''))
-
-// // console.log(m.get(0,0))
-// // console.log(m.get(1,0))
-// // console.log(m.get(7,0))
+export = BitMatrix;
