@@ -31,11 +31,14 @@ function ArraySetBit(byte: number, arr: any[], start = 0, end?: number) {
 class BitMatrix extends Matrix implements Matrix.cmd {
 	// protected _data: ArrayBuffer;
 	protected _data: Uint8Array;
-	constructor(width: number, height: number) {
+	constructor(width: number, height: number, defaultValue = 0) {
 		super(width, height);
 		// this.data = new ArrayBuffer(Math.ceil((width * height) / 8));
 		// this.byteArray = new Uint8Array(this.data);
 		this._data = new Uint8Array(Math.ceil((width * height) / 8));
+		if(defaultValue){
+			this._data.fill(255);
+		}
 	}
 	fill(value: boolean | number): void {
 		this._data.fill(!!value ? 255 : 0);
@@ -170,12 +173,12 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 			}
 		}
 	}
-	rowForEach(fn: (v: boolean[], y: number) => void) {
-		return [];
-	}
-	columnForEach(fn: (v: boolean[], x: number) => void) {
-		return [];
-	}
+	// rowForEach(fn: (v: boolean[], y: number) => void) {
+	// 	return [];
+	// }
+	// columnForEach(fn: (v: boolean[], x: number) => void) {
+	// 	return [];
+	// }
 	showView() {
 		let { width, height } = this;
 		let _w = width - 1;
@@ -202,11 +205,11 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 		};
 	}
 
-	private getPosition(a: number): number[];
-	private getPosition(a: number, b: number): number[];
-	private getPosition(index: number, offset?: number): number[] {
-		let n = offset == undefined ? index + 1 : index * 8 + offset + 1;
-		return [(n - 1) % this.width, Math.ceil(n / this.width) - 1];
-	}
+	// private getPosition(a: number): number[];
+	// private getPosition(a: number, b: number): number[];
+	// private getPosition(index: number, offset?: number): number[] {
+	// 	let n = offset == undefined ? index + 1 : index * 8 + offset + 1;
+	// 	return [(n - 1) % this.width, Math.ceil(n / this.width) - 1];
+	// }
 }
 export = BitMatrix;

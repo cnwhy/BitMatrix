@@ -1,5 +1,5 @@
-const Benchmark = require('benchmark');
-const { typicalClass } = require('../import');
+import Benchmark from 'benchmark';
+import { typicalClass } from '../import';
 
 const suite = new Benchmark.Suite().on('cycle', function(event) {
 	console.log(String(event.target));
@@ -34,12 +34,12 @@ points.push([(x - 1) >> 0, y - 1]);
 let matrixs = typicalClass.map(v => new v(x, y));
 
 // allClass.map(v=>{
-// 	suite.add('new '+v.name, function() {
+// 	suite.add('new '+v['name'], function() {
 // 		new v(x, y);
 // 	})
 // })
 matrixs.map((v, i) => {
-	let name = typicalClass[i].name;
+	let name = typicalClass[i]['className'] || typicalClass[i]['name'];
 	let emptyFn = function(){};
 	suite.add('fill ' + name, function() {
 		v.fill(0);
@@ -80,7 +80,7 @@ let end = [];
 function runSuite(suite) {
 	return new Promise((yes, no) => {
 		suite
-			.on('complete', function() {
+			.on('complete', function(this) {
 				// console.log(this);
 				console.log('\n最快的是: ' + this.filter('fastest').map('name'), '\n');
 				end.push(this.filter('fastest').map('name'));

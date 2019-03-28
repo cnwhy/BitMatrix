@@ -1,10 +1,19 @@
+function isInteger(value: any): boolean {
+	if (typeof Number['isInteger'] == 'function') {
+		return Number['isInteger'](value);
+	} else {
+		return typeof value === 'number' && isFinite(value) && Math.floor(value) === value;
+	}
+}
+
 class Matrix {
 	width: number;
 	height: number;
 	total: number;
 	constructor(width: number, height: number) {
 		if (width < 0 || height < 0) throw RangeError('width and height must be greater than 0');
-		if (!Number.isInteger(width) || !Number.isInteger(height))
+		// if (!Number.isInteger(width) || !Number.isInteger(height))
+		if (!isInteger(width) || !isInteger(height))
 			throw RangeError('width and height must be an integer');
 		Object.defineProperty(this, 'width', { value: width });
 		Object.defineProperty(this, 'height', { value: height });

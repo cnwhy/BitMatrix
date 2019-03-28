@@ -1,39 +1,26 @@
-const {
-	BitMatrix,
-	AnyMatrix,
-	AnyMatrixUseObject,
-	AnyMatrixUseMap,
-	Int8Matrix,
-	Uint8Matrix,
-	Uint8ClampedMatrix,
-	Int16Matrix,
-	Uint16Matrix,
-	Int32Matrix,
-	Uint32Matrix,
-	Float32Matrix,
-	Float64Matrix
-} = require('../lib/index');
-
+"use strict";
+exports.__esModule = true;
+var index_1 = require("../src/index");
 exports.allClass = [
-	BitMatrix,
-	AnyMatrix,
-	AnyMatrixUseObject,
-	AnyMatrixUseMap,
-	Int8Matrix,
-	Uint8Matrix,
-	Uint8ClampedMatrix,
-	Int16Matrix,
-	Uint16Matrix,
-	Int32Matrix,
-	Uint32Matrix,
-	Float32Matrix,
-	Float64Matrix
+    // exports.allClass = [
+    index_1.BitMatrix,
+    index_1.AnyMatrix,
+    index_1.AnyMatrixUseObject,
+    // AnyMatrixUseMap,
+    index_1.Int8Matrix,
+    index_1.Uint8Matrix,
+    index_1.Uint8ClampedMatrix,
+    index_1.Int16Matrix,
+    index_1.Uint16Matrix,
+    index_1.Int32Matrix,
+    index_1.Uint32Matrix,
+    index_1.Float32Matrix,
+    index_1.Float64Matrix
 ];
-
 exports.typicalClass = [
-	BitMatrix, 
-	Uint8Matrix, 
-	AnyMatrix, 
-	AnyMatrixUseObject, 
-	AnyMatrixUseMap
+    // exports.typicalClass = [
+    index_1.BitMatrix,
+    index_1.Uint8Matrix,
+    index_1.AnyMatrix,
+    index_1.AnyMatrixUseObject,
 ];

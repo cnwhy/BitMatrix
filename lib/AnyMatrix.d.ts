@@ -15,7 +15,7 @@ declare class AnyMatrix extends Matrix implements Matrix.cmd {
     cellForEach(fn: any): void;
     showView(): string;
     static getTypedMatrixClass(TypedArrayClass: any): {
-        new (width: number, height: number): {
+        new (width: number, height: number, defaultValue?: number): {
             _data: any;
             _dataInit(): void;
             fill(value: any): void;

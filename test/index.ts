@@ -1,4 +1,4 @@
-const { allClass } = require('./import');
+import { allClass }  from './import';
 
 // const allClass = [require('../lib/AnyMatrixUseObject').default];
 
@@ -21,13 +21,13 @@ const s0 = (function() {
 let matrixs = allClass.map(M => new M(x, y));
 
 let vs = matrixs.map((m, i) => {
-	console.log(allClass[i].className || allClass[i].name);
+	console.log(allClass[i]['className'] || allClass[i]['name']);
 	let s = '';
 	m.fill(0);
 	m.cellForEach((v, x, y) => {
 		s += [x, y, v].join(',') + '|';
 	});
-	if (s !== s0) throw allClass[i].name + ' mark1';
+	if (s !== s0) throw allClass[i]['name'] + ' mark1';
 	s = '';
 	oneIndex.forEach(([x, y]) => {
 		m.set(x, y, 1);
@@ -61,7 +61,7 @@ let getRC_setRC = copyMs.every((m, i) => {
 	for (let index = 0; index < oneIndex.length; index++) {
 		const [x, y] = oneIndex[index];
 		if (m.get(x, y) !== 1) {
-			// console.log(allClass[i].name);
+			// console.log(allClass[i]['name']);
 			return false;
 		}
 	}
@@ -72,7 +72,7 @@ let getpass = matrixs.every((m, i) => {
 	for (let index = 0; index < oneIndex.length; index++) {
 		const [x, y] = oneIndex[index];
 		if (m.get(x, y) !== 1) {
-			console.log(allClass[i].name);
+			console.log(allClass[i]['name']);
 			return false;
 		}
 	}
@@ -82,7 +82,7 @@ let getpass = matrixs.every((m, i) => {
 let pass = vs.every((v, i) => {
 	let pass = true;
 	if (v != vs[0]) {
-		console.log(allClass[i].name);
+		console.log(allClass[i]['name']);
 		console.log(v);
 		pass = false;
 	}
@@ -90,4 +90,3 @@ let pass = vs.every((v, i) => {
 });
 
 console.log('测试结果:', getpass && getRC_setRC && pass ? 'is ok' : 'is err');
-return;

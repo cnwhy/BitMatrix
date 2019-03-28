@@ -1,0 +1,39 @@
+import {
+	BitMatrix,
+	AnyMatrix,
+	AnyMatrixUseObject,
+	// AnyMatrixUseMap,
+	Int8Matrix,
+	Uint8Matrix,
+	Uint8ClampedMatrix,
+	Int16Matrix,
+	Uint16Matrix,
+	Int32Matrix,
+	Uint32Matrix,
+	Float32Matrix,
+	Float64Matrix
+} from '../src/index';
+export const allClass = [
+// exports.allClass = [
+	BitMatrix,
+	AnyMatrix,
+	AnyMatrixUseObject,
+	// AnyMatrixUseMap,
+	Int8Matrix,
+	Uint8Matrix,
+	Uint8ClampedMatrix,
+	Int16Matrix,
+	Uint16Matrix,
+	Int32Matrix,
+	Uint32Matrix,
+	Float32Matrix,
+	Float64Matrix
+];
+export const typicalClass = [
+// exports.typicalClass = [
+	BitMatrix, 
+	Uint8Matrix, 
+	AnyMatrix, 
+	AnyMatrixUseObject, 
+	// AnyMatrixUseMap
+];

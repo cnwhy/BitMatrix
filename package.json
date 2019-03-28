@@ -5,14 +5,51 @@
   "main": "lib/BitMatrix.js",
   "module": "src/BitMatrix.ts",
   "scripts": {
-    "test": "node test/",
-    "menu": "node --expose-gc test/benchmark/menu.js",
-    "benchmark": "node test/benchmark"
+    "compile": "rm -rf lib && tsc -m umd --rootDir './src'",
+    "test": "ava --fail-fast test/test.ts",
+    "test-cov": "nyc npm run test",
+    "test-memory": "ts-node test/benchmark/memory.ts  --expose-gc",
+    "test-benchmark": "npm run compile && node test/benchmark",
+    "prepublish": "npm run compile"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/benchmark": "^1.0.31",
+    "@types/node": "^11.12.0",
+    "ava": "^1.4.1",
     "benchmark": "^2.1.4",
+    "nyc": "^13.3.0",
+    "ts-node": "^8.0.3",
     "typescript": "^3.3.4000"
+  },
+  "ava": {
+    "compileEnhancements": false,
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "html",
+      "text-summary"
+    ],
+    "sourceMap": true,
+    "instrument": true
   }
 }

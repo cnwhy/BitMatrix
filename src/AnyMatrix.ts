@@ -53,7 +53,8 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 		let { width, height, _data } = this;
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let start = width * row;
-		return Array.from(this._data.slice(start, start + width));
+		// return Array.from(this._data.slice(start, start + width));
+		return Array.prototype.slice.call(this._data,start, start+width)
 	}
 	setRow(row: number, value: any[]) {
 		let { width, height, _data } = this;
@@ -112,9 +113,9 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 		return class extends AnyMatrix {
 			static className:string = name;
 			_data: any | any[];
-			constructor(width: number, height: number) {
-				super(width, height);
-			}
+			// constructor(width: number, height: number, defaultValue = 0) {
+			// 	super(width, height, defaultValue);
+			// }
 			_dataInit() {
 				this._data = new TypedArrayClass(this.total);
 			}

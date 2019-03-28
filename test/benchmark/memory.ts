@@ -1,5 +1,6 @@
 //需要 --expose-gc 启动
-const { allClass } = require('../import');
+// const { allClass } = require('../import');
+import { allClass } from '../import';
 
 // const defn = 21172224; //node常驻内存大小
 const defn = process.memoryUsage().rss; //node常驻内存大小

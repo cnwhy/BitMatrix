@@ -1,9 +1,8 @@
 import BitMatrix from './BitMatrix';
 import AnyMatrix from './AnyMatrix';
 import AnyMatrixUseObject from './AnyMatrixUseObject';
-import AnyMatrixUseMap from './AnyMatrixUseMap';
 declare const Int8Matrix: {
-    new (width: number, height: number): {
+    new (width: number, height: number, defaultValue?: number): {
         _data: any;
         _dataInit(): void;
         fill(value: any): void;
@@ -26,7 +25,7 @@ declare const Int8Matrix: {
     Row: typeof import("./Matrix.I").Row;
 };
 declare const Uint8Matrix: {
-    new (width: number, height: number): {
+    new (width: number, height: number, defaultValue?: number): {
         _data: any;
         _dataInit(): void;
         fill(value: any): void;
@@ -49,7 +48,7 @@ declare const Uint8Matrix: {
     Row: typeof import("./Matrix.I").Row;
 };
 declare const Uint8ClampedMatrix: {
-    new (width: number, height: number): {
+    new (width: number, height: number, defaultValue?: number): {
         _data: any;
         _dataInit(): void;
         fill(value: any): void;
@@ -72,7 +71,7 @@ declare const Uint8ClampedMatrix: {
     Row: typeof import("./Matrix.I").Row;
 };
 declare const Int16Matrix: {
-    new (width: number, height: number): {
+    new (width: number, height: number, defaultValue?: number): {
         _data: any;
         _dataInit(): void;
         fill(value: any): void;
@@ -95,7 +94,7 @@ declare const Int16Matrix: {
     Row: typeof import("./Matrix.I").Row;
 };
 declare const Uint16Matrix: {
-    new (width: number, height: number): {
+    new (width: number, height: number, defaultValue?: number): {
         _data: any;
         _dataInit(): void;
         fill(value: any): void;
@@ -118,7 +117,7 @@ declare const Uint16Matrix: {
     Row: typeof import("./Matrix.I").Row;
 };
 declare const Int32Matrix: {
-    new (width: number, height: number): {
+    new (width: number, height: number, defaultValue?: number): {
         _data: any;
         _dataInit(): void;
         fill(value: any): void;
@@ -141,7 +140,7 @@ declare const Int32Matrix: {
     Row: typeof import("./Matrix.I").Row;
 };
 declare const Uint32Matrix: {
-    new (width: number, height: number): {
+    new (width: number, height: number, defaultValue?: number): {
         _data: any;
         _dataInit(): void;
         fill(value: any): void;
@@ -164,7 +163,7 @@ declare const Uint32Matrix: {
     Row: typeof import("./Matrix.I").Row;
 };
 declare const Float32Matrix: {
-    new (width: number, height: number): {
+    new (width: number, height: number, defaultValue?: number): {
         _data: any;
         _dataInit(): void;
         fill(value: any): void;
@@ -187,7 +186,7 @@ declare const Float32Matrix: {
     Row: typeof import("./Matrix.I").Row;
 };
 declare const Float64Matrix: {
-    new (width: number, height: number): {
+    new (width: number, height: number, defaultValue?: number): {
         _data: any;
         _dataInit(): void;
         fill(value: any): void;
@@ -209,4 +208,4 @@ declare const Float64Matrix: {
     getTypedMatrixClass(TypedArrayClass: any): any;
     Row: typeof import("./Matrix.I").Row;
 };
-export { BitMatrix, AnyMatrix, AnyMatrixUseObject, AnyMatrixUseMap, Int8Matrix, Uint8Matrix, Uint8ClampedMatrix, Int16Matrix, Uint16Matrix, Int32Matrix, Uint32Matrix, Float32Matrix, Float64Matrix };
+export { BitMatrix, AnyMatrix, AnyMatrixUseObject, Int8Matrix, Uint8Matrix, Uint8ClampedMatrix, Int16Matrix, Uint16Matrix, Int32Matrix, Uint32Matrix, Float32Matrix, Float64Matrix };

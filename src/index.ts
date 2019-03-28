@@ -1,7 +1,7 @@
 import BitMatrix from './BitMatrix';
 import AnyMatrix from './AnyMatrix';
 import AnyMatrixUseObject from './AnyMatrixUseObject';
-import AnyMatrixUseMap from './AnyMatrixUseMap';
+// import AnyMatrixUseMap from './AnyMatrixUseMap';
 
 const Int8Matrix = AnyMatrix.getTypedMatrixClass(Int8Array);
 const Uint8Matrix = AnyMatrix.getTypedMatrixClass(Uint8Array);
@@ -17,7 +17,7 @@ export {
 	BitMatrix,
 	AnyMatrix,
 	AnyMatrixUseObject,
-	AnyMatrixUseMap,
+	// AnyMatrixUseMap,
 	Int8Matrix,
 	Uint8Matrix,
 	Uint8ClampedMatrix,
