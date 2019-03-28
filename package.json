@@ -5,11 +5,11 @@
   "main": "lib/BitMatrix.js",
   "module": "src/BitMatrix.ts",
   "scripts": {
-    "compile": "rm -rf lib && tsc -m umd --rootDir './src'",
-    "test": "ava --fail-fast test/test.ts",
+    "compile": "rm -rf lib && tsc",
+    "test": "export TS_NODE_PROJECT='./test/tsconfig.json' && ava --fail-fast test/test.ts",
     "test-cov": "nyc npm run test",
-    "test-memory": "ts-node test/benchmark/memory.ts  --expose-gc",
-    "test-benchmark": "npm run compile && node test/benchmark",
+    "test-memory": "ts-node test/memory",
+    "test-benchmark": "ts-node test/benchmark",
     "prepublish": "npm run compile"
   },
   "author": "",

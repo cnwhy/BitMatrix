@@ -1,4 +1,4 @@
-import Matrix from './Matrix.I';
+import Matrix from './Matrix';
 class AnyMatrix extends Matrix implements Matrix.cmd {
 	protected _data: any | any[];
 	constructor(width: number, height: number, defaultValue = 0) {
@@ -88,11 +88,11 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 		}
 	}
 	cellForEach(fn) {
-		let { _data: data, width, total: length } = this;
+		let { _data, width, total } = this;
 		let x = 0,
 			y = 0;
-		for (let i = 0; i < length; i++) {
-			fn(data[i], x, y);
+		for (let i = 0; i < total; i++) {
+			fn(_data[i], x, y);
 			if (++x >= width) {
 				x = 0;
 				y++;

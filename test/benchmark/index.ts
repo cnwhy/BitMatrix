@@ -77,13 +77,16 @@ function get(obj) {
 }
 
 let end = [];
-function runSuite(suite) {
+function runSuite(suite:Benchmark.Suite) {
 	return new Promise((yes, no) => {
 		suite
-			.on('complete', function(this) {
+			.on('complete', function(this:Benchmark.Suite) {
 				// console.log(this);
-				console.log('\n最快的是: ' + this.filter('fastest').map('name'), '\n');
-				end.push(this.filter('fastest').map('name'));
+				console.log('\n最快的是: ' + this.filter('fastest').map((v)=>{
+					// console.log(Object.entries(v));
+					return v;
+				}), '\n');
+				end.push(this.filter('fastest').map(v=>v.name));
 				yes();
 			})
 			.run({ async: true });
@@ -92,8 +95,8 @@ function runSuite(suite) {
 
 Promise.resolve()
 	.then(x => runSuite(suite))
-	// .then(x => runSuite(suite2))
-	// .then(x => runSuite(suite1))
+	.then(x => runSuite(suite2))
+	.then(x => runSuite(suite1))
 	.then(x => runSuite(suite3))
 	.then(x => console.log(end));
 

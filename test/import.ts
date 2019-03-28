@@ -16,9 +16,6 @@ import {
 export const allClass = [
 // exports.allClass = [
 	BitMatrix,
-	AnyMatrix,
-	AnyMatrixUseObject,
-	// AnyMatrixUseMap,
 	Int8Matrix,
 	Uint8Matrix,
 	Uint8ClampedMatrix,
@@ -27,7 +24,10 @@ export const allClass = [
 	Int32Matrix,
 	Uint32Matrix,
 	Float32Matrix,
-	Float64Matrix
+	Float64Matrix,
+	AnyMatrix,
+	AnyMatrixUseObject,
+	// AnyMatrixUseMap,
 ];
 export const typicalClass = [
 // exports.typicalClass = [

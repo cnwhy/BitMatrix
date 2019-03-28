@@ -1,4 +1,4 @@
-import Matrix from './Matrix.I';
+import Matrix from './Matrix';
 
 function Bit2Array(byte: number, start: number = 0, end?: number) {
 	let arr = [];
