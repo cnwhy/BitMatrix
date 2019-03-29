@@ -19,7 +19,7 @@ function diffMore(m1,m2){
 		// heapTotal: toMB(m2.heapTotal - m1.heapTotal),
 		heapUsed: toMB(m2.heapUsed - m1.heapUsed),
 		external: toMB(m2.external - m1.external),
-		memory: toMB(m2.heapUsed + m2.external - m1.heapUsed - m1.external)
+		sum: toMB(m2.heapUsed + m2.external - m1.heapUsed - m1.external)
 	}
 }
 
@@ -29,7 +29,7 @@ function newfn(_class){
 	let arr = [];
 	let max = newcount;
 	while(max--){
-		arr.push(new _class(x,y,true));
+		arr.push(new _class(x,y,1));
 	}
 	let mem = process.memoryUsage();
 	return {
@@ -40,5 +40,5 @@ function newfn(_class){
 let jg = allClass.map(M=>{
 	return newfn(M);	
 })
-console.log(`${newcount} 个 ${x+'*'+y} 矩阵 内存占用情况:`)
+console.log(`用 1 填充 ${newcount} 个 ${x+'*'+y} 矩阵 内存占用情况:`)
 console.table(jg);

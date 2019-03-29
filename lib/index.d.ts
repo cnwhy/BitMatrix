@@ -199,4 +199,4 @@ declare const Float64Matrix: {
     className: string;
     getTypedMatrixClass(TypedArrayClass: any): any;
 };
-export { BitMatrix, AnyMatrix, AnyMatrixUseObject, Int8Matrix, Uint8Matrix, Uint8ClampedMatrix, Int16Matrix, Uint16Matrix, Int32Matrix, Uint32Matrix, Float32Matrix, Float64Matrix };
+export { BitMatrix, BitMatrix as ByteMatrix, AnyMatrix, AnyMatrixUseObject, Int8Matrix, Uint8Matrix, Uint8ClampedMatrix, Int16Matrix, Uint16Matrix, Int32Matrix, Uint32Matrix, Float32Matrix, Float64Matrix };

@@ -15,6 +15,7 @@ const Float64Matrix = AnyMatrix.getTypedMatrixClass(Float64Array);
 
 export {
 	BitMatrix,
+	BitMatrix as ByteMatrix,
 	AnyMatrix,
 	AnyMatrixUseObject,
 	// AnyMatrixUseMap,

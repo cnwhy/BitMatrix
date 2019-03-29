@@ -4,15 +4,29 @@
   "description": "",
   "main": "lib/BitMatrix.js",
   "module": "src/BitMatrix.ts",
+  "files": [
+    "*.js",
+    "lib",
+    "src"
+  ],
   "scripts": {
     "compile": "rm -rf lib && tsc",
     "test": "export TS_NODE_PROJECT='./test/tsconfig.json' && ava --fail-fast test/test.ts",
     "test-cov": "nyc npm run test",
     "test-memory": "ts-node test/memory",
     "test-benchmark": "ts-node test/benchmark",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run test && npm run compile"
   },
-  "author": "",
+  "author": "cnwhy",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cnwhy/BitMatrix.git"
+  },
+  "keywords": [
+    "Matrix",
+    "BitMatrix",
+    "ByteMatrix"
+  ],
   "license": "ISC",
   "devDependencies": {
     "@types/benchmark": "^1.0.31",
