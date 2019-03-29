@@ -1,4 +1,7 @@
+/// <reference path="Matrix.declare.ts" />
 import Matrix from './Matrix';
+import { isInteger } from './Validator';
+
 class AnyMatrix extends Matrix implements Matrix.cmd {
 	protected _data: any | any[];
 	constructor(width: number, height: number, defaultValue = 0) {
@@ -16,6 +19,7 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 	}
 	fillRow(row: number, value: any) {
 		let { width, height, _data } = this;
+		if (!isInteger(row)) throw TypeError('row must be an integer');
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let index = width * row;
 		while (width--) {
@@ -24,6 +28,7 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 	}
 	fillColumn(column: number, v: any) {
 		let { width, _data, total } = this;
+		if (!isInteger(column)) throw TypeError('column must be an integer');
 		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let index = column;
 		while (index < total) {
@@ -32,32 +37,28 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 		}
 	}
 	get(x: number, y: number) {
-		if (x < 0 || x > this.width - 1) {
-			throw RangeError('x out of range');
-		}
-		if (y < 0 || y > this.height - 1) {
-			throw RangeError('y out of range');
-		}
+		if (!isInteger(x) || !isInteger(y)) throw TypeError('x and y must be an integer');
+		if (x < 0 || x > this.width - 1) throw RangeError('x out of range');
+		if (y < 0 || y > this.height - 1) throw RangeError('y out of range');
 		return this._data[y * this.width + x];
 	}
 	set(x: number, y: number, v: any) {
-		if (x < 0 || x > this.width - 1) {
-			throw RangeError('x out of range');
-		}
-		if (y < 0 || y > this.height - 1) {
-			throw RangeError('y out of range');
-		}
+		if (!isInteger(x) || !isInteger(y)) throw TypeError('x and y must be an integer');
+		if (x < 0 || x > this.width - 1) throw RangeError('x out of range');
+		if (y < 0 || y > this.height - 1) throw RangeError('y out of range');
 		this._data[y * this.width + x] = v;
 	}
 	getRow(row: number): any[] {
 		let { width, height, _data } = this;
+		if (!isInteger(row)) throw TypeError('row must be an integer');
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let start = width * row;
 		// return Array.from(this._data.slice(start, start + width));
-		return Array.prototype.slice.call(this._data,start, start+width)
+		return Array.prototype.slice.call(_data, start, start + width);
 	}
 	setRow(row: number, value: any[]) {
 		let { width, height, _data } = this;
+		if (!isInteger(row)) throw TypeError('row must be an integer');
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let index = width * row;
 		let _end = width * (row + 1);
@@ -68,6 +69,7 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 	}
 	getColumn(column: number): any[] {
 		let { width, height, _data, total } = this;
+		if (!isInteger(column)) throw TypeError('column must be an integer');
 		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let arr = [];
 		let index = column;
@@ -77,12 +79,13 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 		}
 		return arr;
 	}
-	setColumn(column: number, value:any[]){
+	setColumn(column: number, value: any[]) {
 		let { width, _data, total } = this;
+		if (!isInteger(column)) throw TypeError('column must be an integer');
 		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let index = column;
 		let i = 0;
-		while (i<value.length && index < total) {
+		while (i < value.length && index < total) {
 			_data[index] = value[i++];
 			index += width;
 		}
@@ -99,7 +102,7 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 			}
 		}
 	}
-	showView():string {
+	showView(): string {
 		let { height } = this;
 		let y = 0;
 		let view = [];
@@ -108,10 +111,10 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 		}
 		return view.join('\n');
 	}
-	static getTypedMatrixClass(TypedArrayClass:any){
-		let  name = TypedArrayClass.name.replace('Array','Matrix')
+	static getTypedMatrixClass(TypedArrayClass: any) {
+		let name = TypedArrayClass.name.replace('Array', 'Matrix');
 		return class extends AnyMatrix {
-			static className:string = name;
+			static className: string = name;
 			_data: any | any[];
 			// constructor(width: number, height: number, defaultValue = 0) {
 			// 	super(width, height, defaultValue);
@@ -119,7 +122,7 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 			_dataInit() {
 				this._data = new TypedArrayClass(this.total);
 			}
-		}
+		};
 	}
 }
 export = AnyMatrix;

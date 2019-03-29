@@ -1,4 +1,5 @@
-import Matrix from './Matrix.I';
+/// <reference path="Matrix.declare.d.ts" />
+import Matrix from './Matrix';
 declare class BitMatrix extends Matrix implements Matrix.cmd {
     protected _data: Uint8Array;
     constructor(width: number, height: number, defaultValue?: number);

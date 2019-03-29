@@ -1,21 +1,17 @@
 import Benchmark from 'benchmark';
 import { typicalClass } from '../import';
 
-const suite = new Benchmark.Suite().on('cycle', function(event) {
-	console.log(String(event.target));
-});
-const suite1 = new Benchmark.Suite().on('cycle', function(event) {
-	console.log(String(event.target));
-});
-const suite2 = new Benchmark.Suite().on('cycle', function(event) {
-	console.log(String(event.target));
-});
-const suite3 = new Benchmark.Suite().on('cycle', function(event) {
-	console.log(String(event.target));
-});
-const suite4 = new Benchmark.Suite().on('cycle', function(event) {
-	console.log(String(event.target));
-});
+function getSuite(){
+	return new Benchmark.Suite().on('cycle', function(event) {
+		console.log(String(event.target));
+	});
+}
+
+const suite = getSuite()
+const suite1 = getSuite()
+const suite2 = getSuite()
+const suite3 = getSuite()
+const suite4 = getSuite()
 
 const x = 1000,
 	y = 1000;
@@ -59,21 +55,11 @@ function set(obj, v) {
 	for (let [x, y] of points) {
 		obj.set(x, y, v);
 	}
-	// for (let _y = 0; _y < y; _y++) {
-	// 	for (let _x = 0; _x < x; _x++) {
-	// 		obj.set(_x, _y, v);
-	// 	}
-	// }
 }
 function get(obj) {
 	for (let [x, y] of points) {
 		obj.get(x, y);
 	}
-	// for (let _y = 0; _y < y; _y++) {
-	// 	for (let _x = 0; _x < x; _x++) {
-	// 		obj.get(_x, _y);
-	// 	}
-	// }
 }
 
 let end = [];

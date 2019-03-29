@@ -1,4 +1,6 @@
+/// <reference path="Matrix.declare.ts" />
 import Matrix from './Matrix';
+import { isInteger } from './Validator';
 
 function Bit2Array(byte: number, start: number = 0, end?: number) {
 	let arr = [];
@@ -45,6 +47,7 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 	}
 	fillRow(row: number, value: boolean | number) {
 		let { width, height, _data, total } = this;
+		if (!isInteger(row)) throw TypeError('row must be an integer');
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let start = this.getIndex(0, row);
 		let end = this.getIndex(width - 1, row);
@@ -61,6 +64,7 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 	}
 	fillColumn(column: number, v: any) {
 		let { width, height, _data, total } = this;
+		if (!isInteger(column)) throw TypeError('column must be an integer');		
 		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let set = (function() {
 			if (v) {
@@ -96,6 +100,7 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 	}
 	getRow(row: number):any[] {
 		let { width, height, _data } = this;
+		if (!isInteger(row)) throw TypeError('row must be an integer');
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let start = this.getIndex(0, row);
 		let end = this.getIndex(width - 1, row);
@@ -108,6 +113,7 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 	}
 	setRow(row: number, value: any[]) {
 		let { width, height, _data, total } = this;
+		if (!isInteger(row)) throw TypeError('row must be an integer');
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let start = this.getIndex(0, row);
 		let end = this.getIndex(width - 1, row);
@@ -116,7 +122,7 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 		i = 8 - start.offset
 		for (let index = start.index + 1; index < end.index && i < value.length; index++) {
 			let byte = _data[index];
-			_data[index] = ArraySetBit(byte,value.slice(i),start.offset);
+			_data[index] = ArraySetBit(byte,value.slice(i));
 			i += 8
 		}
 		if(i >= value.length) return;
@@ -134,6 +140,7 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 	}
 	getColumn(column: number): any[] {
 		let { width, height, _data, total } = this;
+		if (!isInteger(column)) throw TypeError('column must be an integer');
 		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let arr = [];
 		let h = 0;
@@ -144,6 +151,7 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 	}
 	setColumn(column: number, value:any[]){
 		let { width,height, _data, total } = this;
+		if (!isInteger(column)) throw TypeError('column must be an integer');		
 		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let h = 0;
 		let i = 0;
@@ -191,6 +199,7 @@ class BitMatrix extends Matrix implements Matrix.cmd {
 		return str;
 	}
 	private getIndex(x: number, y: number): { index: number; offset: number } {
+		if (!isInteger(x) || !isInteger(y)) throw TypeError('x and y must be an integer');		
 		if (x < 0 || x > this.width - 1) {
 			throw RangeError('x out of range');
 		}

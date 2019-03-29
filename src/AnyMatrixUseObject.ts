@@ -1,4 +1,7 @@
+/// <reference path="Matrix.declare.ts" />
 import Matrix from './Matrix';
+import { isInteger } from './Validator';
+
 class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
 	protected _data: any;
 	constructor(width: number, height: number, defaultValue?) {
@@ -17,6 +20,7 @@ class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
 	}
 	fillRow(row: number, value: any) {
 		let { width, height, _data } = this;
+		if (!isInteger(row)) throw TypeError('row must be an integer');
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let index = width * row;
 		while (width--) {
@@ -25,6 +29,7 @@ class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
 	}
 	fillColumn(column: number, v: any) {
 		let { width, _data, total } = this;
+		if (!isInteger(column)) throw TypeError('column must be an integer');
 		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let index = column;
 		while (index < total) {
@@ -33,25 +38,20 @@ class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
 		}
 	}
 	get(x, y) {
-		if (x < 0 || x > this.width - 1) {
-			throw RangeError('x out of range');
-		}
-		if (y < 0 || y > this.height - 1) {
-			throw RangeError('y out of range');
-		}
+		if (!isInteger(x) || !isInteger(y)) throw TypeError('x and y must be an integer');
+		if (x < 0 || x > this.width - 1) throw RangeError('x out of range');
+		if (y < 0 || y > this.height - 1) throw RangeError('y out of range');
 		return this._data[y * this.width + x];
 	}
 	set(x, y, v) {
-		if (x < 0 || x > this.width - 1) {
-			throw RangeError('x out of range');
-		}
-		if (y < 0 || y > this.height - 1) {
-			throw RangeError('y out of range');
-		}
+		if (!isInteger(x) || !isInteger(y)) throw TypeError('x and y must be an integer');
+		if (x < 0 || x > this.width - 1) throw RangeError('x out of range');
+		if (y < 0 || y > this.height - 1) throw RangeError('y out of range');
 		this._data[y * this.width + x] = v;
 	}
 	getRow(row: number): any[] {
 		let { width, height, _data } = this;
+		if (!isInteger(row)) throw TypeError('row must be an integer');
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let index = width * row;
 		let arr = [];
@@ -62,6 +62,7 @@ class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
 	}
 	setRow(row: number, value: any[]) {
 		let { width, height, _data } = this;
+		if (!isInteger(row)) throw TypeError('row must be an integer');
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let index = width * row;
 		let _end = width * (row + 1);
@@ -72,6 +73,7 @@ class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
 	}
 	getColumn(column: number): any[] {
 		let { width, height, _data, total } = this;
+		if (!isInteger(column)) throw TypeError('column must be an integer');
 		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let arr = [];
 		let index = column;
@@ -83,6 +85,7 @@ class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
 	}
 	setColumn(column: number, value: any[]) {
 		let { width, _data, total } = this;
+		if (!isInteger(column)) throw TypeError('column must be an integer');
 		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let index = column;
 		let i = 0;

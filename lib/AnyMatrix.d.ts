@@ -1,4 +1,5 @@
-import Matrix from './Matrix.I';
+/// <reference path="Matrix.declare.d.ts" />
+import Matrix from './Matrix';
 declare class AnyMatrix extends Matrix implements Matrix.cmd {
     protected _data: any | any[];
     constructor(width: number, height: number, defaultValue?: number);
@@ -35,7 +36,6 @@ declare class AnyMatrix extends Matrix implements Matrix.cmd {
         };
         className: string;
         getTypedMatrixClass(TypedArrayClass: any): any;
-        Row: typeof Matrix.Row;
     };
 }
 export = AnyMatrix;
