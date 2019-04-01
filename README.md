@@ -1,15 +1,16 @@
 # BitMatrix
+[![Coverage Status](https://coveralls.io/repos/github/cnwhy/BitMatrix/badge.svg?branch=master)](https://coveralls.io/github/cnwhy/BitMatrix?branch=master)
+[![Build Status](https://travis-ci.org/cnwhy/BitMatrix.svg?branch=master)](https://travis-ci.org/cnwhy/BitMatrix)
 > **BitMatrix** 以 `ArrayBuffer` 为基础, 以`bit` 为单位的矩阵类实现;
 
-**特点如下**:  
-1. BitMatrix只能存储 `1` 或者 `0`
-2. 非常节约内存;
-3. 速度不输以 `Array` 为基础的矩阵实现
+**特点如下:**  
+1. 省内存;
+2. `BitMatrix` 只能存储 `1` 或者 `0`
 
-**适用场景**:  
+**适用场景:**  
 任何需要存储点阵信息的场景;
 
-**类说明:**:  
+**类说明:**  
 > 除了 `ArrayBuffer` 做存储的矩阵, 还提供两个 `AnyMatrix`, `AnyMatrixUseObject` 两个类;  
 > 这两个类主要用于做为参照物; 也可以做为可以存储任意值的矩阵来使用
 
@@ -73,21 +74,16 @@ forEach Uint8Matrix x 900 ops/sec ±2.68% (83 runs sampled)
 forEach AnyMatrix x 84.17 ops/sec ±0.76% (69 runs sampled)
 forEach AnyMatrixUseObject x 970 ops/sec ±0.49% (91 runs sampled)
 ```
-## 兼容性
-理论上支持`DataView`的浏览器都支持: 'IE10+'
 
 ## 使用
 ```js
-import BitMatrix from `bitmatrix`;
+import BitMatrix from 'bitmatrix';
 //or
-import {BitMatrix, Uint8Matrix, AnyMatrix} from 'bitmatrix/Matrix' 
+import {BitMatrix, Uint8Matrix, AnyMatrix} from 'bitmatrix/Matrixs' 
 
-/*
-ts use: 
-import BitMatrix from `BitMatrix`;
-import {BitMatrix, Uint8Matrix, AnyMatrix} from 'BitMatrix/src'
-*/
-
+let bm = new BitMatrix(2,2,0);
+let bm1 = BitMatrix.from([[1,0],[1,0]]);
+let bm2 = BitMatrix.from([1,0,1,0],2);
 ```
 
 ## API
@@ -118,3 +114,4 @@ class Matrix {
 	- [x] 基准测试
 	- [x] 内存占用测试
 - [ ] 增加基准测试范围;
+- [ ] .from

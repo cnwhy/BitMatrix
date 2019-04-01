@@ -12,7 +12,7 @@ import {
 	Uint32Matrix,
 	Float32Matrix,
 	Float64Matrix
-} from '../src/index';
+} from '../Matrixs';
 export const allClass = [
 // exports.allClass = [
 	BitMatrix,

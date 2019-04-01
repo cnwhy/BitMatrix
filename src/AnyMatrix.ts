@@ -1,8 +1,7 @@
-/// <reference path="Matrix.declare.ts" />
 import Matrix from './Matrix';
 import { isInteger } from './Validator';
 
-class AnyMatrix extends Matrix implements Matrix.cmd {
+class AnyMatrix extends Matrix {
 	protected _data: any | any[];
 	constructor(width: number, height: number, defaultValue = 0) {
 		super(width, height);
@@ -102,27 +101,30 @@ class AnyMatrix extends Matrix implements Matrix.cmd {
 			}
 		}
 	}
-	showView(): string {
-		let { height } = this;
-		let y = 0;
-		let view = [];
-		while (y < height) {
-			view.push(this.getRow(y++).join(','));
-		}
-		return view.join('\n');
-	}
-	static getTypedMatrixClass(TypedArrayClass: any) {
-		let name = TypedArrayClass.name.replace('Array', 'Matrix');
-		return class extends AnyMatrix {
-			static className: string = name;
-			_data: any | any[];
-			// constructor(width: number, height: number, defaultValue = 0) {
-			// 	super(width, height, defaultValue);
-			// }
-			_dataInit() {
-				this._data = new TypedArrayClass(this.total);
-			}
-		};
-	}
+	// static getTypedMatrixClass(TypedArrayClass: any) {
+	// 	let name = TypedArrayClass.name.replace('Array', 'Matrix');
+	// 	return class extends AnyMatrix {
+	// 		static className: string = name;
+	// 		_data: any | any[];
+	// 		// constructor(width: number, height: number, defaultValue = 0) {
+	// 		// 	super(width, height, defaultValue);
+	// 		// }
+	// 		_dataInit() {
+	// 			this._data = new TypedArrayClass(this.total);
+	// 		}
+	// 	};
+	// }
+	/**
+	 * 创建一个类
+	 *
+	 * @static
+	 * @param {any[]} arrayLike
+	 * @memberof BitMatrix
+	 */
+	// static from(arrayLike:any[][]): Matrix;
+	// static from(arrayLike:any[],width:number): Matrix;//arrayLike[, mapFn[, thisArg]
+	// static from(arrayLike:any[],width?:number){//arrayLike[, mapFn[, thisArg]
+	// 	return Matrix.from.call(this,arrayLike,width);
+	// }
 }
 export = AnyMatrix;

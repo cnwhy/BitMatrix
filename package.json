@@ -1,11 +1,12 @@
 {
   "name": "bitmatrix",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.2.0",
+  "description": "Low-cost dot matrix Class",
   "main": "lib/BitMatrix.js",
   "module": "src/BitMatrix.ts",
   "files": [
     "*.js",
+    "*.ts",
     "lib",
     "src"
   ],

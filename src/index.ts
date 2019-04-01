@@ -1,17 +1,19 @@
 import BitMatrix from './BitMatrix';
 import AnyMatrix from './AnyMatrix';
 import AnyMatrixUseObject from './AnyMatrixUseObject';
+import Matrix = require('./Matrix');
 // import AnyMatrixUseMap from './AnyMatrixUseMap';
+const getTypedMatrixClass = Matrix.getTypedMatrixClass.bind(null,AnyMatrix);
 
-const Int8Matrix = AnyMatrix.getTypedMatrixClass(Int8Array);
-const Uint8Matrix = AnyMatrix.getTypedMatrixClass(Uint8Array);
-const Uint8ClampedMatrix = AnyMatrix.getTypedMatrixClass(Uint8ClampedArray);
-const Int16Matrix = AnyMatrix.getTypedMatrixClass(Int16Array);
-const Uint16Matrix = AnyMatrix.getTypedMatrixClass(Uint16Array);
-const Int32Matrix = AnyMatrix.getTypedMatrixClass(Int32Array);
-const Uint32Matrix = AnyMatrix.getTypedMatrixClass(Uint32Array);
-const Float32Matrix = AnyMatrix.getTypedMatrixClass(Float32Array);
-const Float64Matrix = AnyMatrix.getTypedMatrixClass(Float64Array);
+const Int8Matrix = getTypedMatrixClass(Int8Array);
+const Uint8Matrix = getTypedMatrixClass(Uint8Array);
+const Uint8ClampedMatrix = getTypedMatrixClass(Uint8ClampedArray);
+const Int16Matrix = getTypedMatrixClass(Int16Array);
+const Uint16Matrix = getTypedMatrixClass(Uint16Array);
+const Int32Matrix = getTypedMatrixClass(Int32Array);
+const Uint32Matrix = getTypedMatrixClass(Uint32Array);
+const Float32Matrix = getTypedMatrixClass(Float32Array);
+const Float64Matrix = getTypedMatrixClass(Float64Array);
 
 export {
 	BitMatrix,

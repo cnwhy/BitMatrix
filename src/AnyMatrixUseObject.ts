@@ -1,8 +1,7 @@
-/// <reference path="Matrix.declare.ts" />
 import Matrix from './Matrix';
 import { isInteger } from './Validator';
 
-class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
+class AnyMatrixUseObject extends Matrix {
 	protected _data: any;
 	constructor(width: number, height: number, defaultValue?) {
 		super(width, height);
@@ -106,16 +105,17 @@ class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
 			}
 		}
 	}
-	showView(): string {
-		let { width, height } = this;
-		let _w = width - 1;
-		let _h = height - 1;
-		let str = '';
-		this.cellForEach(function(v, x, y) {
-			str += v;
-			str += x < _w ? ',' : y < _h ? '\n' : '';
-		});
-		return str;
-	}
+	/**
+	 * 创建一个类
+	 *
+	 * @static
+	 * @param {any[]} arrayLike
+	 * @memberof BitMatrix
+	 */
+	// static from(arrayLike:any[][]): Matrix;
+	// static from(arrayLike:any[],width:number): Matrix;//arrayLike[, mapFn[, thisArg]
+	// static from(arrayLike:any[],width?:number){//arrayLike[, mapFn[, thisArg]
+	// 	return Matrix.from.call(this,arrayLike,width);
+	// }
 }
 export = AnyMatrixUseObject;

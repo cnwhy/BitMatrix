@@ -1,6 +1,5 @@
-/// <reference path="Matrix.declare.d.ts" />
 import Matrix from './Matrix';
-declare class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
+declare class AnyMatrixUseObject extends Matrix {
     protected _data: any;
     constructor(width: number, height: number, defaultValue?: any);
     fill(v: any): void;
@@ -13,6 +12,5 @@ declare class AnyMatrixUseObject extends Matrix implements Matrix.cmd {
     getColumn(column: number): any[];
     setColumn(column: number, value: any[]): void;
     cellForEach(fn: any): void;
-    showView(): string;
 }
 export = AnyMatrixUseObject;
