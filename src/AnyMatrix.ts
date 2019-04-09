@@ -2,7 +2,7 @@ import Matrix from './Matrix';
 import { isInteger } from './Validator';
 
 class AnyMatrix extends Matrix {
-	protected _data: any | any[];
+	protected _data: any[];
 	constructor(width: number, height: number, defaultValue = 0) {
 		super(width, height);
 		this._dataInit();
@@ -12,6 +12,16 @@ class AnyMatrix extends Matrix {
 	}
 	protected _dataInit() {
 		this._data = new Array(this.total);
+	}
+	getPrototypeData():any[] {
+		return this._data;
+	}
+	clone():AnyMatrix{
+		return Object.create(this, {
+			_data: Object.assign(Object.getOwnPropertyDescriptor(this, '_data'), {
+				value: this._data.slice(0)
+			})
+		});
 	}
 	fill(value: any): void {
 		this._data.fill(value);
@@ -101,19 +111,7 @@ class AnyMatrix extends Matrix {
 			}
 		}
 	}
-	// static getTypedMatrixClass(TypedArrayClass: any) {
-	// 	let name = TypedArrayClass.name.replace('Array', 'Matrix');
-	// 	return class extends AnyMatrix {
-	// 		static className: string = name;
-	// 		_data: any | any[];
-	// 		// constructor(width: number, height: number, defaultValue = 0) {
-	// 		// 	super(width, height, defaultValue);
-	// 		// }
-	// 		_dataInit() {
-	// 			this._data = new TypedArrayClass(this.total);
-	// 		}
-	// 	};
-	// }
+	
 	/**
 	 * 创建一个类
 	 *

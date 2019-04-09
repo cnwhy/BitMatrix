@@ -12,17 +12,19 @@ abstract class Matrix {
 		Object.defineProperty(this, 'height', { value: height });
 		Object.defineProperty(this, 'total', { value: width * height });
 	}
+	abstract clone();
+	abstract getPrototypeData():any;
 	abstract fill(value: any);
 	abstract fillRow(row: number, value: any);
 	abstract fillColumn(column: number, value: any);
 	abstract get(x: number, y: number): any;
 	abstract set(x: number, y: number, value: any);
 	abstract getRow(y: number): any[];
-	abstract setRow(y: number, row:any[]);
+	abstract setRow(y: number, row: any[]);
 	abstract getColumn(x: number): any[];
 	abstract setColumn(x: number, column: any[]);
 	abstract cellForEach(fn: (value: any, x: number, y: number) => void);
-	showView(): string{
+	showView(): string {
 		let { height } = this;
 		let y = 0;
 		let view = [];
@@ -41,25 +43,26 @@ abstract class Matrix {
 		// });
 		// return str;
 	}
-	static from<T extends Matrix>(this:{new(a,b,c?):T}, arrayLike:any[],width?:number):T{//arrayLike[, mapFn[, thisArg]
-		let _width:number,_height:number;
-		if(width != undefined){
-			if(!isInteger(width)) throw TypeError('width must be an integer');
-			if(width<1) throw RangeError('x out of range');
+	static from<T extends Matrix>(this: { new (a, b, c?): T }, arrayLike: any[], width?: number): T {
+		//arrayLike[, mapFn[, thisArg]
+		let _width: number, _height: number;
+		if (width != undefined) {
+			if (!isInteger(width)) throw TypeError('width must be an integer');
+			if (width < 1) throw RangeError('x out of range');
 			_width = width;
-			_height = Math.ceil(arrayLike.length/_width);
-			let m = new this(_width,_height);
+			_height = Math.ceil(arrayLike.length / _width);
+			let m = new this(_width, _height);
 			// m._data = arrayLike.slice(0);
-			for(let i = 0; i<_height; i++){
-				m.setRow(i,arrayLike.slice(i*_width,(i+1)*_width));
+			for (let i = 0; i < _height; i++) {
+				m.setRow(i, arrayLike.slice(i * _width, (i + 1) * _width));
 			}
 			return m;
-		}else{
+		} else {
 			_width = arrayLike[0].length;
 			_height = arrayLike.length;
-			let m = new this(_width,_height);
-			for(let i =0; i<arrayLike.length;i++){
-				m.setRow(i,arrayLike[i]);
+			let m = new this(_width, _height);
+			for (let i = 0; i < arrayLike.length; i++) {
+				m.setRow(i, arrayLike[i]);
 			}
 			return m;
 		}
@@ -76,6 +79,13 @@ namespace Matrix {
 			// }
 			_dataInit() {
 				this._data = new TypedArrayClass(this.total);
+			}
+			clone() {
+				return Object.create(this, {
+					_data: Object.assign(Object.getOwnPropertyDescriptor(this, '_data'), {
+						value: new TypedArrayClass(this._data.buffer.slice(0))
+					})
+				});
 			}
 		};
 	}

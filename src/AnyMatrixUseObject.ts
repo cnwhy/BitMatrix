@@ -10,6 +10,16 @@ class AnyMatrixUseObject extends Matrix {
 			this.fill(defaultValue);
 		}
 	}
+	clone():AnyMatrixUseObject{
+		return Object.create(this, {
+			_data: Object.assign(Object.getOwnPropertyDescriptor(this, '_data'), {
+				value: Object.assign({},this._data)
+			})
+		});
+	}
+	getPrototypeData():any {
+		return this._data;
+	}
 	fill(v: any): void {
 		let data = this._data;
 		let max = this.total;

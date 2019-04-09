@@ -1,6 +1,3 @@
-//需要 --expose-gc 启动
-// const { allClass } = require('../import');
-// import 'expose-gc';
 import v8 from "v8";
 import vm from 'vm';
 import { allClass } from './import';

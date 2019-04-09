@@ -90,21 +90,42 @@ let bm2 = BitMatrix.from([1,0,1,0],2);
 > API 可能还会有变化, 欢迎提意见. 
 ```typescript
 class Matrix {
-	width: number;
-	height: number;
-	total: number;
 	constructor(width: number, height: number, defaultValue?: any);
+	//宽
+	width: number;
+	//高
+	height: number;
+	//单元格总数
+	total: number;
+	// 填充矩阵
 	fill(value: any);
+	// 填充一行
 	fillRow(row: number, value: any);
+	// 填充一列
 	fillColumn(column: number, value: any);
+	// 读取指定单元格
 	get(x: number, y: number): any;
+	// 设置指定单元格
 	set(x: number, y: number, value: any);
+	// 读取一行 返回 Array
 	getRow(y: number): any[];
+	// 设置一行 返回 Array
 	setRow(y: number, row:any[]);
+	// 读取一列 返回 Array
 	getColumn(x: number): any[];
+	// 设置一列 返回 Array
 	setColumn(x: number, column: any[]);
+	// 暴露矩阵原型数据对像, 如果你不清楚是什么, 请勿使用
+	getPrototypeData():Object;
+	// 遍历矩阵
 	cellForEach(fn: (value: any, x: number, y: number) => void);
+	// 以','分隔列, '\n'分隔行, 返回当前矩阵数据
 	showView(): string;
+	// 创建一个副本
+	clone(): Matrix;
+	// 用现有数据创建矩阵,
+	static from(arr:[][]): Matrix;
+	static from(arr:[],width:number): Matrix;
 }
 ```
 ## Other
@@ -114,4 +135,9 @@ class Matrix {
 	- [x] 基准测试
 	- [x] 内存占用测试
 - [ ] 增加基准测试范围;
-- [ ] .from
+- Matrix.from(arr:[][]|[][,width])
+	- [x] 编码
+	- [x] 测试
+- .clone()
+	- [x] 编码
+	- [x] 测试

@@ -1,7 +1,7 @@
 import BitMatrix from './BitMatrix';
 import AnyMatrix from './AnyMatrix';
 import AnyMatrixUseObject from './AnyMatrixUseObject';
-import Matrix = require('./Matrix');
+import Matrix from './AnyMatrix';
 // import AnyMatrixUseMap from './AnyMatrixUseMap';
 const getTypedMatrixClass = Matrix.getTypedMatrixClass.bind(null,AnyMatrix);
 

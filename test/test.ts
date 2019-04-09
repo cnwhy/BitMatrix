@@ -234,8 +234,6 @@ function noSize(Matrix){
 			Matrix.from([1,2],'0');
 		})
 	});
-
-	
 }
 
 function testSize(Matrix,view,exp){
@@ -250,6 +248,36 @@ function testSize(Matrix,view,exp){
 		let matrix1 = Matrix.from(data1, +(exp.split('*')[0]));
 		t.is(matrix1.showView(), view);
 	});
+}
+
+function testOther(Matrix){
+	let name = Matrix['className'] || Matrix['name'];
+	test.serial(`[${name}] '.showView'`, t => {
+		let matrix = new Matrix(5, 5, 0);
+		matrix.fillRow(1, 1);
+		matrix.fillRow(3, 1);
+		matrix.fillColumn(1, 1);
+		matrix.fillColumn(3, 1);
+		t.is(matrix.showView(), view55);
+	});
+
+	test.serial(`[${name}] clone `, t => {
+		t.plan(2);
+		let matrix = new Matrix(5, 5, 0);
+		let cloneMatrix = matrix.clone();
+		cloneMatrix.fillRow(1, 1);
+		cloneMatrix.fillRow(3, 1);
+		cloneMatrix.fillColumn(1, 1);
+		cloneMatrix.fillColumn(3, 1);
+		t.is(cloneMatrix.showView(), view55);
+		t.notThrows(() => {
+			all0(matrix);
+		});
+	});
+	test.serial(`[${name}] getPrototypeData `, t => {
+		let matrix = new Matrix(5,5);
+		t.is(typeof matrix.getPrototypeData(),'object')
+	})
 }
 
 function testFn(Matrix) {
@@ -520,16 +548,8 @@ function testFn(Matrix) {
 		t.is(count, width * height);
 	});
 
-	test.serial(`[${name}] '.showView'`, t => {
-		let matrix = new Matrix(5, 5, 0);
-		matrix.fillRow(1, 1);
-		matrix.fillRow(3, 1);
-		matrix.fillColumn(1, 1);
-		matrix.fillColumn(3, 1);
-		t.is(matrix.showView(), view55);
-	});
+	
 }
-
 
 
 // testFn(allClass[3]);
@@ -539,4 +559,5 @@ allClass.forEach(C=>{
 	testSize(C,view11,'1*1');
 	testSize(C,view22,'2*2');
 	testSize(C,view55,'5*5');
+	testOther(C);
 });

@@ -41,6 +41,16 @@ class BitMatrix extends Matrix {
 			this._data.fill(255);
 		}
 	}
+	clone():BitMatrix{
+		return Object.create(this, {
+			_data: Object.assign(Object.getOwnPropertyDescriptor(this, '_data'), {
+				value: new Uint8Array(this._data.buffer.slice(0)) 
+			})
+		});
+	}
+	getPrototypeData():Uint8Array{
+		return this._data;
+	}
 	fill(value: boolean | number): void {
 		this._data.fill(!!value ? 255 : 0);
 	}
