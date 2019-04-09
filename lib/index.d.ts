@@ -6,6 +6,7 @@ declare const Int8Matrix: {
         [x: string]: any;
         _data: any;
         _dataInit(): void;
+        clone(): any;
     };
     [x: string]: any;
     className: string;
@@ -15,6 +16,7 @@ declare const Uint8Matrix: {
         [x: string]: any;
         _data: any;
         _dataInit(): void;
+        clone(): any;
     };
     [x: string]: any;
     className: string;
@@ -24,6 +26,7 @@ declare const Uint8ClampedMatrix: {
         [x: string]: any;
         _data: any;
         _dataInit(): void;
+        clone(): any;
     };
     [x: string]: any;
     className: string;
@@ -33,6 +36,7 @@ declare const Int16Matrix: {
         [x: string]: any;
         _data: any;
         _dataInit(): void;
+        clone(): any;
     };
     [x: string]: any;
     className: string;
@@ -42,6 +46,7 @@ declare const Uint16Matrix: {
         [x: string]: any;
         _data: any;
         _dataInit(): void;
+        clone(): any;
     };
     [x: string]: any;
     className: string;
@@ -51,6 +56,7 @@ declare const Int32Matrix: {
         [x: string]: any;
         _data: any;
         _dataInit(): void;
+        clone(): any;
     };
     [x: string]: any;
     className: string;
@@ -60,6 +66,7 @@ declare const Uint32Matrix: {
         [x: string]: any;
         _data: any;
         _dataInit(): void;
+        clone(): any;
     };
     [x: string]: any;
     className: string;
@@ -69,6 +76,7 @@ declare const Float32Matrix: {
         [x: string]: any;
         _data: any;
         _dataInit(): void;
+        clone(): any;
     };
     [x: string]: any;
     className: string;
@@ -78,6 +86,7 @@ declare const Float64Matrix: {
         [x: string]: any;
         _data: any;
         _dataInit(): void;
+        clone(): any;
     };
     [x: string]: any;
     className: string;

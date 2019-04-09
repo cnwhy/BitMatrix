@@ -2,6 +2,8 @@ import Matrix from './Matrix';
 declare class BitMatrix extends Matrix {
     protected _data: Uint8Array;
     constructor(width: number, height: number, defaultValue?: number);
+    clone(): BitMatrix;
+    getPrototypeData(): Uint8Array;
     fill(value: boolean | number): void;
     fillRow(row: number, value: boolean | number): void;
     fillColumn(column: number, v: any): void;

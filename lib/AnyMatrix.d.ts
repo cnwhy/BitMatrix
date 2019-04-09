@@ -1,8 +1,10 @@
 import Matrix from './Matrix';
 declare class AnyMatrix extends Matrix {
-    protected _data: any | any[];
+    protected _data: any[];
     constructor(width: number, height: number, defaultValue?: number);
     protected _dataInit(): void;
+    getPrototypeData(): any[];
+    clone(): AnyMatrix;
     fill(value: any): void;
     fillRow(row: number, value: any): void;
     fillColumn(column: number, v: any): void;

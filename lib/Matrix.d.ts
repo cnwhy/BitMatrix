@@ -3,6 +3,8 @@ declare abstract class Matrix {
     readonly height: number;
     readonly total: number;
     constructor(width: number, height: number);
+    abstract clone(): any;
+    abstract getPrototypeData(): any;
     abstract fill(value: any): any;
     abstract fillRow(row: number, value: any): any;
     abstract fillColumn(column: number, value: any): any;
@@ -24,6 +26,7 @@ declare namespace Matrix {
             [x: string]: any;
             _data: any;
             _dataInit(): void;
+            clone(): any;
         };
         [x: string]: any;
         className: string;
