@@ -41,14 +41,14 @@ class BitMatrix extends Matrix {
 			this._data.fill(255);
 		}
 	}
-	clone():BitMatrix{
+	clone(): BitMatrix {
 		return Object.create(this, {
 			_data: Object.assign(Object.getOwnPropertyDescriptor(this, '_data'), {
-				value: new Uint8Array(this._data.buffer.slice(0)) 
+				value: new Uint8Array(this._data.buffer.slice(0))
 			})
 		});
 	}
-	getPrototypeData():Uint8Array{
+	getPrototypeData(): Uint8Array {
 		return this._data;
 	}
 	fill(value: boolean | number): void {
@@ -60,6 +60,16 @@ class BitMatrix extends Matrix {
 		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let start = this.getIndex(0, row);
 		let end = this.getIndex(width - 1, row);
+		if (start.index === end.index) {
+			// return Bit2Array(_data[start.index], start.offset, end.offset + 1);
+			if (value) {
+				_data[start.index] |= (2 ** width - 1) << start.offset;
+			} else {
+				_data[start.index] &=
+					((2 ** start.offset - 1) << (8 - start.offset)) | (2 ** (8 - end.offset - 1) - 1);
+			}
+			return;
+		}
 		if (value) {
 			_data[start.index] |= 0xff << start.offset;
 			_data[end.index] |= 0xff >> (7 - end.offset);
