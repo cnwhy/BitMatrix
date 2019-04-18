@@ -2,6 +2,8 @@ import BitMatrix from './BitMatrix';
 import AnyMatrix from './AnyMatrix';
 import AnyMatrixUseObject from './AnyMatrixUseObject';
 import Matrix from './AnyMatrix';
+import { encode as b64Encode, decode as b46Decode } from './Base64';
+
 // import AnyMatrixUseMap from './AnyMatrixUseMap';
 const getTypedMatrixClass = Matrix.getTypedMatrixClass.bind(null,AnyMatrix);
 
@@ -14,6 +16,17 @@ const Int32Matrix = getTypedMatrixClass(Int32Array);
 const Uint32Matrix = getTypedMatrixClass(Uint32Array);
 const Float32Matrix = getTypedMatrixClass(Float32Array);
 const Float64Matrix = getTypedMatrixClass(Float64Array);
+
+const tool = {
+	
+}
+// function outInBase64(str:string) {
+// 	let barray:Uint8Array = b46Decode(str);
+
+// }
+// function outPutBase64(matrix:Matrix) {
+// 	let type = 
+// }
 
 export {
 	BitMatrix,

@@ -1,5 +1,4 @@
 import Matrix from './Matrix';
-import { isInteger } from './Validator';
 
 class AnyMatrixUseObject extends Matrix {
 	protected _data: any;
@@ -10,14 +9,14 @@ class AnyMatrixUseObject extends Matrix {
 			this.fill(defaultValue);
 		}
 	}
-	clone():AnyMatrixUseObject{
+	clone(): AnyMatrixUseObject {
 		return Object.create(this, {
 			_data: Object.assign(Object.getOwnPropertyDescriptor(this, '_data'), {
-				value: Object.assign({},this._data)
+				value: Object.assign({}, this._data)
 			})
 		});
 	}
-	getPrototypeData():any {
+	getPrototypeData(): any {
 		return this._data;
 	}
 	fill(v: any): void {
@@ -28,18 +27,16 @@ class AnyMatrixUseObject extends Matrix {
 		}
 	}
 	fillRow(row: number, value: any) {
-		let { width, height, _data } = this;
-		if (!isInteger(row)) throw TypeError('row must be an integer');
-		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
+		this.Validator_row(row);
+		let { width, _data } = this;
 		let index = width * row;
 		while (width--) {
 			_data[index++] = value;
 		}
 	}
 	fillColumn(column: number, v: any) {
+		this.Validator_column(column);
 		let { width, _data, total } = this;
-		if (!isInteger(column)) throw TypeError('column must be an integer');
-		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let index = column;
 		while (index < total) {
 			_data[index] = v;
@@ -47,21 +44,16 @@ class AnyMatrixUseObject extends Matrix {
 		}
 	}
 	get(x, y) {
-		if (!isInteger(x) || !isInteger(y)) throw TypeError('x and y must be an integer');
-		if (x < 0 || x > this.width - 1) throw RangeError('x out of range');
-		if (y < 0 || y > this.height - 1) throw RangeError('y out of range');
+		this.Validator_xy(x, y);
 		return this._data[y * this.width + x];
 	}
 	set(x, y, v) {
-		if (!isInteger(x) || !isInteger(y)) throw TypeError('x and y must be an integer');
-		if (x < 0 || x > this.width - 1) throw RangeError('x out of range');
-		if (y < 0 || y > this.height - 1) throw RangeError('y out of range');
+		this.Validator_xy(x, y);
 		this._data[y * this.width + x] = v;
 	}
 	getRow(row: number): any[] {
-		let { width, height, _data } = this;
-		if (!isInteger(row)) throw TypeError('row must be an integer');
-		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
+		this.Validator_row(row);
+		let { width, _data } = this;
 		let index = width * row;
 		let arr = [];
 		while (width--) {
@@ -70,9 +62,8 @@ class AnyMatrixUseObject extends Matrix {
 		return arr;
 	}
 	setRow(row: number, value: any[]) {
+		this.Validator_row(row);
 		let { width, height, _data } = this;
-		if (!isInteger(row)) throw TypeError('row must be an integer');
-		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let index = width * row;
 		let _end = width * (row + 1);
 		let i = 0;
@@ -81,9 +72,8 @@ class AnyMatrixUseObject extends Matrix {
 		}
 	}
 	getColumn(column: number): any[] {
-		let { width, height, _data, total } = this;
-		if (!isInteger(column)) throw TypeError('column must be an integer');
-		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
+		this.Validator_column(column);
+		let { width, _data, total } = this;
 		let arr = [];
 		let index = column;
 		while (index < total) {
@@ -93,9 +83,8 @@ class AnyMatrixUseObject extends Matrix {
 		return arr;
 	}
 	setColumn(column: number, value: any[]) {
+		this.Validator_column(column);
 		let { width, _data, total } = this;
-		if (!isInteger(column)) throw TypeError('column must be an integer');
-		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let index = column;
 		let i = 0;
 		while (i < value.length && index < total) {
@@ -105,8 +94,8 @@ class AnyMatrixUseObject extends Matrix {
 	}
 	cellForEach(fn) {
 		let { _data, width, total } = this;
-		let x = 0,
-			y = 0;
+		let x = 0;
+		let y = 0;
 		for (let i = 0; i < total; i++) {
 			fn(_data[i], x, y);
 			if (++x >= width) {
@@ -128,4 +117,4 @@ class AnyMatrixUseObject extends Matrix {
 	// 	return Matrix.from.call(this,arrayLike,width);
 	// }
 }
-export = AnyMatrixUseObject;
+export default AnyMatrixUseObject;

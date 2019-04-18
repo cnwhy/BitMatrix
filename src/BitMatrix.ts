@@ -1,5 +1,5 @@
 import Matrix from './Matrix';
-import { isInteger } from './Validator';
+import { encode as b64Encode, decode as b46Decode } from './Base64';
 
 function Bit2Array(byte: number, start: number = 0, end?: number) {
 	let arr = [];
@@ -55,9 +55,8 @@ class BitMatrix extends Matrix {
 		this._data.fill(!!value ? 255 : 0);
 	}
 	fillRow(row: number, value: boolean | number) {
+		this.Validator_row(row);
 		let { width, height, _data, total } = this;
-		if (!isInteger(row)) throw TypeError('row must be an integer');
-		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let start = this.getIndex(0, row);
 		let end = this.getIndex(width - 1, row);
 		if (start.index === end.index) {
@@ -82,9 +81,8 @@ class BitMatrix extends Matrix {
 		}
 	}
 	fillColumn(column: number, v: any) {
+		this.Validator_column(column);
 		let { width, height, _data, total } = this;
-		if (!isInteger(column)) throw TypeError('column must be an integer');
-		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
 		let set = (function() {
 			if (v) {
 				return function(i, offset) {
@@ -103,14 +101,10 @@ class BitMatrix extends Matrix {
 	}
 	get(x: number, y: number): number {
 		let { index, offset } = this.getIndex(x, y);
-		// console.log(index, offset);
-		// return !!((1 << offset) & this._byteArray[index]);
 		return (this._data[index] >> offset) & 1;
 	}
 	set(x: number, y: number, v: any): void {
 		let { index, offset } = this.getIndex(x, y);
-		// console.log(index, offset);
-		// let ov = this.byteArray[index];
 		if (v) {
 			this._data[index] |= 1 << offset;
 		} else {
@@ -119,8 +113,6 @@ class BitMatrix extends Matrix {
 	}
 	getRow(row: number): any[] {
 		let { width, height, _data } = this;
-		if (!isInteger(row)) throw TypeError('row must be an integer');
-		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let start = this.getIndex(0, row);
 		let end = this.getIndex(width - 1, row);
 		//width <= 8时可能出现
@@ -136,8 +128,6 @@ class BitMatrix extends Matrix {
 	}
 	setRow(row: number, value: any[]) {
 		let { width, height, _data, total } = this;
-		if (!isInteger(row)) throw TypeError('row must be an integer');
-		if (row < 0 || row >= height) throw RangeError('Parameter "row" is out of range');
 		let start = this.getIndex(0, row);
 		let end = this.getIndex(width - 1, row);
 		let i = 0;
@@ -150,21 +140,10 @@ class BitMatrix extends Matrix {
 		}
 		if (i >= value.length) return;
 		_data[end.index] = ArraySetBit(_data[end.index], value.slice(i), 0, end.offset + 1);
-		// if (value) {
-		// 	_data[start.index] |= 0xff << start.offset;
-		// 	_data[end.index] |= 0xff >> (7 - end.offset);
-		// } else {
-		// 	_data[start.index] &= 0xff >> (8 - start.offset);
-		// 	_data[end.index] &= 0xff << (end.offset + 1);
-		// }
-		// for (let index = start.index + 1; index < end.index; index++) {
-		// 	_data[index] = value ? 0xff : 0;
-		// }
 	}
 	getColumn(column: number): any[] {
-		let { width, height, _data, total } = this;
-		if (!isInteger(column)) throw TypeError('column must be an integer');
-		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
+		this.Validator_column(column);
+		let { height } = this;
 		let arr = [];
 		let h = 0;
 		while (h < height) {
@@ -173,9 +152,8 @@ class BitMatrix extends Matrix {
 		return arr;
 	}
 	setColumn(column: number, value: any[]) {
-		let { width, height, _data, total } = this;
-		if (!isInteger(column)) throw TypeError('column must be an integer');
-		if (column < 0 || column >= width) throw RangeError('Parameter "column" is out of range');
+		this.Validator_column(column);
+		let { height } = this;
 		let h = 0;
 		let i = 0;
 		while (i < value.length && h < height) {
@@ -211,13 +189,7 @@ class BitMatrix extends Matrix {
 	// 	return [];
 	// }
 	private getIndex(x: number, y: number): { index: number; offset: number } {
-		if (!isInteger(x) || !isInteger(y)) throw TypeError('x and y must be an integer');
-		if (x < 0 || x > this.width - 1) {
-			throw RangeError('x out of range');
-		}
-		if (y < 0 || y > this.height - 1) {
-			throw RangeError('y out of range');
-		}
+		this.Validator_xy(x, y);
 		let n = y * this.width + x + 1;
 		return {
 			index: Math.ceil(n / 8) - 1,
@@ -243,5 +215,6 @@ class BitMatrix extends Matrix {
 	// 	let n = offset == undefined ? index + 1 : index * 8 + offset + 1;
 	// 	return [(n - 1) % this.width, Math.ceil(n / this.width) - 1];
 	// }
+
 }
-export = BitMatrix;
+export default BitMatrix;

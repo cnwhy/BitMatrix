@@ -1,18 +1,19 @@
 # BitMatrix
 [![Coverage Status](https://coveralls.io/repos/github/cnwhy/BitMatrix/badge.svg?branch=master)](https://coveralls.io/github/cnwhy/BitMatrix?branch=master)
 [![Build Status](https://travis-ci.org/cnwhy/BitMatrix.svg?branch=master)](https://travis-ci.org/cnwhy/BitMatrix)
-> **BitMatrix** 以 `ArrayBuffer` 为基础, 以`bit` 为单位的矩阵类实现;
+> **BitMatrix** 以 `ArrayBuffer` 为基础, 以 `bit` 为单元的矩阵类实现;
 
 **特点如下:**  
-1. 省内存;
-2. `BitMatrix` 只能存储 `1` 或者 `0`
+1. 按需选择矩阵类,节省内存;
+2. 统一API方便矩阵操作;
+3. 支持将矩阵对像通过 `base64` 导入导出, 打通存储问题;
 
 **适用场景:**  
 任何需要存储点阵信息的场景;
 
 **类说明:**  
-> 除了 `ArrayBuffer` 做存储的矩阵, 还提供两个 `AnyMatrix`, `AnyMatrixUseObject` 两个类;  
-> 这两个类主要用于做为参照物; 也可以做为可以存储任意值的矩阵来使用
+> 除了 `ArrayBuffer` 做存储的矩阵, 还提供 `AnyMatrix`, `AnyMatrixUseObject` 两个类;  
+> 这两个类主要用于做为参照物; 也可以做为可以存储任意值的矩阵来使用; API相同
 
 class | base DataView | value range 
 -- | -- | --
@@ -79,7 +80,7 @@ forEach AnyMatrixUseObject x 970 ops/sec ±0.49% (91 runs sampled)
 ```js
 import BitMatrix from 'bitmatrix';
 //or
-import {BitMatrix, Uint8Matrix, AnyMatrix} from 'bitmatrix/Matrixs' 
+import {BitMatrix, Uint8Matrix, AnyMatrix} from 'bitmatrix/es/' 
 
 let bm = new BitMatrix(2,2,0);
 let bm1 = BitMatrix.from([[1,0],[1,0]]);
@@ -123,11 +124,47 @@ class Matrix {
 	showView(): string;
 	// 创建一个副本
 	clone(): Matrix;
-	// 用现有数据创建矩阵,
+	// 用现有数据创建矩阵
 	static from(arr:[][]): Matrix;
 	static from(arr:[],width:number): Matrix;
+	// 用现有矩阵对像 创建一个此类型的矩阵对象 注意区别clone(); from可以创建不能类型的矩阵
+	static from(matrix:Matrix,callback:(value: any, x: number, y: number)=>any,thisArg): Matrix;
+	// 通过base64导出矩阵,便于存储
+	static output(matrix:Matrix): string;
+	// 通过导入base64,创建矩阵
+	static input(base64:string): Matrix;
 }
 ```
+#### 复制矩阵
+推荐使用矩阵对像的 `clong()` 方法;  
+
+#### 导入导出 
+导入(`input()`),导出(`output()`)使用base64 为媒介;
+
+```js
+import BitMatrix from 'bitmatrix';
+let bm = new BitMatrix(7,7,0);
+bm.fillColumn(3,1);
+bm.fillRow(3,1);
+
+let b64 = BitMatrix.output(bm);
+console.log(b64);
+let bm1 = BitMatrix.input(b64);
+console.log(bm1.showView())
+
+/*
+AAAABwAAAAcDCATij0AgAA==
+0,0,0,1,0,0,0
+0,0,0,1,0,0,0
+0,0,0,1,0,0,0
+1,1,1,1,1,1,1
+0,0,0,1,0,0,0
+0,0,0,1,0,0,0
+0,0,0,1,0,0,0
+*/
+```
+
+
 ## Other
 - [x] 添加各API参数合法性检测
 - 处理好 单元测试, 基准测试, 内存测试代码;
@@ -141,3 +178,9 @@ class Matrix {
 - .clone()
 	- [x] 编码
 	- [x] 测试
+- .copy() .copyTo()
+	- [ ] copy()
+	- [ ] copyTo()
+- 装箱, 拆箱;
+	- [ ] typeBuffer Matrix 转 base64
+	- [ ] base64 转 Matrix 

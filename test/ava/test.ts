@@ -1,6 +1,6 @@
 import test from 'ava';
-import { allClass } from './import';
-// import AnyMatrix from '../src/AnyMatrix';
+import { allClass } from '../import';
+import AnyMatrix from '../../src/AnyMatrix';
 
 const view11 = `1`;
 const view22 = `1,0
@@ -23,10 +23,12 @@ function all0(matrix) {
 		matrix.forEach(is0);
 	}
 }
+
 function all1(matrix) {
 	let is1 = (v, x, y) => {
 		// console.log(v,x,y);
 		if (v !== 1) {
+			console.log(matrix.showView());
 			throw 'Test is not through!';
 		}
 	};
@@ -36,6 +38,7 @@ function all1(matrix) {
 		matrix.forEach(is1);
 	}
 }
+
 function diff(arr1, arr2) {
 	if (arr1.length != arr2.length) throw 'Test is not through!';
 	for (let i = 0; i < arr1.length; i++) {
@@ -158,7 +161,7 @@ function noSize(Matrix){
 		});
 	});
 
-	test.serial(`[${name}] .getRow 参数测试`, t => {
+	test(`[${name}] .getRow 参数测试`, t => {
 		t.plan(3);
 		let x = 30,
 			y = 5;
@@ -174,7 +177,7 @@ function noSize(Matrix){
 		});
 	});
 
-	test.serial(`[${name}] .setRow 参数测试`, t => {
+	test(`[${name}] .setRow 参数测试`, t => {
 		t.plan(3);
 		let x = 30,
 			y = 5;
@@ -191,7 +194,7 @@ function noSize(Matrix){
 		});
 	});
 	
-	test.serial(`[${name}] .getColumn 参数测试`, t => {
+	test(`[${name}] .getColumn 参数测试`, t => {
 		t.plan(3);
 		let matrix = new Matrix(5, 5, 1);
 		t.throws(() => {
@@ -205,7 +208,7 @@ function noSize(Matrix){
 		});
 	});
 	
-	test.serial(`[${name}] .setColumn 参数测试`, t => {
+	test(`[${name}] .setColumn 参数测试`, t => {
 		t.plan(3);
 		let matrix = new Matrix(5, 5, 1);
 		t.throws(() => {
@@ -248,11 +251,62 @@ function testSize(Matrix,view,exp){
 		let matrix1 = Matrix.from(data1, +(exp.split('*')[0]));
 		t.is(matrix1.showView(), view);
 	});
+	test.serial(`[${name}] from(Matrix,width) ${exp}`,t=>{
+		t.plan(5);
+		let am = new AnyMatrix(5,5,0);
+		let matrix1 = Matrix.from(am);
+		let matrix2 = Matrix.from(am,(v)=>{
+			return v+1;
+		});
+		let matrix3 = Matrix.from(am,function(v){
+			// console.log(this)
+			// throw '';
+			return this;
+		},1);
+		t.true(matrix1 instanceof Matrix);
+		t.notThrows(()=>{
+			all0(matrix1)
+		})
+		t.notThrows(()=>{
+			all1(matrix2)
+		})
+		t.notThrows(()=>{
+			all1(matrix3)
+		})
+		am.fill(1);
+		t.notThrows(()=>{
+			all0(matrix1)
+		})
+		
+
+	});
+	test.serial(`[${name}] from(MatrixLike,width) ${exp}`,t=>{
+		t.plan(2);
+		let matrixLike = {
+			width:10,
+			height:10,
+			get(x,y){
+				return 0;
+			}
+		}
+		let matrix1 = Matrix.from(matrixLike);
+		let matrix2 = Matrix.from(matrixLike,function(){
+			return 1;
+		})
+		
+		t.notThrows(()=>{
+			all0(matrix1);
+		})
+
+		t.notThrows(()=>{
+			all1(matrix2);
+		})
+	});
 }
 
 function testOther(Matrix){
 	let name = Matrix['className'] || Matrix['name'];
-	test.serial(`[${name}] '.showView'`, t => {
+	test(`[${name}] '.showView'`, t => {
 		let matrix = new Matrix(5, 5, 0);
 		matrix.fillRow(1, 1);
 		matrix.fillRow(3, 1);
@@ -261,7 +315,7 @@ function testOther(Matrix){
 		t.is(matrix.showView(), view55);
 	});
 
-	test.serial(`[${name}] clone `, t => {
+	test(`[${name}] clone `, t => {
 		t.plan(2);
 		let matrix = new Matrix(5, 5, 0);
 		let cloneMatrix = matrix.clone();
@@ -274,7 +328,7 @@ function testOther(Matrix){
 			all0(matrix);
 		});
 	});
-	test.serial(`[${name}] getPrototypeData `, t => {
+	test(`[${name}] getPrototypeData `, t => {
 		let matrix = new Matrix(5,5);
 		t.is(typeof matrix.getPrototypeData(),'object')
 	})

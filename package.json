@@ -1,9 +1,9 @@
 {
   "name": "bitmatrix",
-  "version": "0.3.1",
+  "version": "0.3.0",
   "description": "Low-cost dot matrix Class",
   "main": "lib/BitMatrix.js",
-  "module": "src/BitMatrix.ts",
+  "module": "es/BitMatrix.js",
   "files": [
     "*.js",
     "*.ts",
@@ -11,11 +11,13 @@
     "src"
   ],
   "scripts": {
-    "compile": "rm -rf lib && tsc",
-    "test": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ava --fail-fast test/test.ts",
+    "compile": "npm run compile-umd && npm run compile-es",
+    "compile-umd": "rm -rf lib && tsc -t es3 -m commonjs --outDir lib",
+    "compile-es": "rm -rf es && tsc -t es2015 -m es2015 --outDir es",
+    "test": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ava --fail-fast test/ava/test.ts",
     "test-cov": "nyc npm run test",
-    "test-memory": "ts-node test/memory",
-    "test-benchmark": "ts-node test/benchmark",
+    "test-memory": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ts-node test/memory",
+    "test-benchmark": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ts-node test/benchmark",
     "prepublish": "npm run test && npm run compile"
   },
   "author": "cnwhy",
@@ -31,11 +33,15 @@
   "license": "ISC",
   "devDependencies": {
     "@types/benchmark": "^1.0.31",
-    "@types/node": "^11.12.0",
+    "@types/node": "^11.13.4",
     "ava": "^1.4.1",
     "benchmark": "^2.1.4",
     "cross-env": "^5.2.0",
+    "jslitmus": "^0.1.0",
+    "microtime": "^3.0.0",
     "nyc": "^13.3.0",
+    "rollup": "^1.9.3",
+    "rollup-plugin-typescript2": "^0.20.1",
     "ts-node": "^8.0.3",
     "typescript": "^3.3.4000"
   },
