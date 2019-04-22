@@ -9,7 +9,7 @@ const view55 = `0,1,0,1,0
 1,1,1,1,1
 0,1,0,1,0
 1,1,1,1,1
-0,1,0,1,0`
+0,1,0,1,0`;
 
 function all0(matrix) {
 	let is0 = v => {
@@ -46,6 +46,42 @@ function diff(arr1, arr2) {
 	}
 }
 
+function matrix2Array(matrix) {
+	let arr = [];
+	for (let y = 0; y < matrix.height; y++) {
+		let row = (arr[y] = []);
+		for (let x = 0; x < matrix.width; x++) {
+			row[x] = matrix.get(x, y);
+		}
+	}
+	return arr;
+}
+
+function getRandomArray(length) {
+	let arr = [];
+	for (let i = 0; i < length; i++) {
+		arr.push(Math.random() > 0.5 ? 1 : 0);
+	}
+	return arr;
+}
+
+function arrSetRow(arr, y, data) {
+	let _row = arr[y];
+	let _i = 0;
+	while (_i < _row.length && _i < data.length) {
+		_row[_i] = data[_i];
+		_i++;
+	}
+}
+
+function arrSetColumn(arr, x, data) {
+	let _i = 0;
+	while (_i < arr.length && _i < data.length) {
+		arr[_i][x] = data[_i];
+		_i++;
+	}
+}
+
 function getRow(matrix, row) {
 	let { width } = matrix;
 	let arr = [];
@@ -65,7 +101,7 @@ function getColumn(matrix, column) {
 }
 
 // 和尺寸无关的检测, 主要是参数验证相关测试
-function noSize(Matrix){
+function noSize(Matrix) {
 	let name = Matrix['className'] || Matrix['name'];
 
 	test(`[${name}] 矩形宽高只能为数字`, t => {
@@ -193,7 +229,7 @@ function noSize(Matrix){
 			matrix.setRow('0', 0);
 		});
 	});
-	
+
 	test(`[${name}] .getColumn 参数测试`, t => {
 		t.plan(3);
 		let matrix = new Matrix(5, 5, 1);
@@ -207,7 +243,7 @@ function noSize(Matrix){
 			matrix.getColumn('0');
 		});
 	});
-	
+
 	test(`[${name}] .setColumn 参数测试`, t => {
 		t.plan(3);
 		let matrix = new Matrix(5, 5, 1);
@@ -224,87 +260,197 @@ function noSize(Matrix){
 
 	test(`[${name}] from 参数测试`, t => {
 		t.plan(4);
-		t.throws(()=>{
+		t.throws(() => {
 			Matrix.from(3);
-		})
-		t.throws(()=>{
-			Matrix.from([1,2],0);
-		})
-		t.throws(()=>{
-			Matrix.from([1,2],-1);
-		})
-		t.throws(()=>{
-			Matrix.from([1,2],'0');
-		})
+		});
+		t.throws(() => {
+			Matrix.from([1, 2], 0);
+		});
+		t.throws(() => {
+			Matrix.from([1, 2], -1);
+		});
+		t.throws(() => {
+			Matrix.from([1, 2], '0');
+		});
 	});
 }
 
-function testSize(Matrix,view,exp){
+function testSize(Matrix, view, exp) {
 	let name = Matrix['className'] || Matrix['name'];
+
+	function getArr() {
+		return view.split('\n').map(v => v.split(',').map(k => +k));
+	}
+	function getMatrix() {
+		return Matrix.from(getArr());
+	}
 	test.serial(`[${name}] from(arr[][]) ${exp}`, t => {
-		let data = view.split('\n').map(v => v.split(',').map(k => +k)); // arr[][]
-		let matrix = Matrix.from(data);
+		let matrix = getMatrix();
 		t.is(matrix.showView(), view);
 	});
 	test.serial(`[${name}] from(arr[],width) ${exp}`, t => {
 		let data1 = view.split(/[\n,]/).map(v => +v); //arr[]
-		let matrix1 = Matrix.from(data1, +(exp.split('*')[0]));
+		let matrix1 = Matrix.from(data1, +exp.split('*')[0]);
 		t.is(matrix1.showView(), view);
 	});
-	test.serial(`[${name}] from(Matrix,width) ${exp}`,t=>{
+	test.serial(`[${name}] from(Matrix,callback?,argThis?) ${exp}`, t => {
 		t.plan(5);
-		let am = new AnyMatrix(5,5,0);
+		let am = new AnyMatrix(5, 5, 0);
 		let matrix1 = Matrix.from(am);
-		let matrix2 = Matrix.from(am,(v)=>{
-			return v+1;
+		let matrix2 = Matrix.from(am, v => {
+			return v + 1;
 		});
-		let matrix3 = Matrix.from(am,function(v){
-			// console.log(this)
-			// throw '';
-			return this;
-		},1);
+		let matrix3 = Matrix.from(
+			am,
+			function(v) {
+				// console.log(this)
+				// throw '';
+				return this;
+			},
+			1
+		);
 		t.true(matrix1 instanceof Matrix);
-		t.notThrows(()=>{
-			all0(matrix1)
-		})
-		t.notThrows(()=>{
-			all1(matrix2)
-		})
-		t.notThrows(()=>{
-			all1(matrix3)
-		})
+		t.notThrows(() => {
+			all0(matrix1);
+		});
+		t.notThrows(() => {
+			all1(matrix2);
+		});
+		t.notThrows(() => {
+			all1(matrix3);
+		});
 		am.fill(1);
-		t.notThrows(()=>{
-			all0(matrix1)
-		})
-		
-
+		t.notThrows(() => {
+			all0(matrix1);
+		});
 	});
-	test.serial(`[${name}] from(MatrixLike,width) ${exp}`,t=>{
+	test.serial(`[${name}] from(MatrixLike,callback?,argThis?) ${exp}`, t => {
 		t.plan(2);
 		let matrixLike = {
-			width:10,
-			height:10,
-			get(x,y){
+			width: 10,
+			height: 10,
+			get(x, y) {
 				return 0;
 			}
-		}
+		};
 		let matrix1 = Matrix.from(matrixLike);
-		let matrix2 = Matrix.from(matrixLike,function(){
+		let matrix2 = Matrix.from(matrixLike, function() {
 			return 1;
-		})
-		
-		t.notThrows(()=>{
-			all0(matrix1);
-		})
+		});
 
-		t.notThrows(()=>{
+		t.notThrows(() => {
+			all0(matrix1);
+		});
+
+		t.notThrows(() => {
 			all1(matrix2);
-		})
+		});
+	});
+
+	test.serial(`[${name}] getRow(row) ${exp}`, t => {
+		let matrix = getMatrix();
+		let arr = getArr();
+		t.plan(matrix.height);
+		for (let i = 0; i < matrix.height; i++) {
+			t.deepEqual(matrix.getRow(i), arr[i]);
+		}
+	});
+
+	test.serial(`[${name}] getColumn() ${exp}`, t => {
+		let matrix = getMatrix();
+		let arr = getArr();
+		t.plan(matrix.width);
+		for (let i = 0; i < matrix.width; i++) {
+			t.deepEqual(matrix.getColumn(i), arr.map(v => v[i]));
+		}
+	});
+
+	test.serial(`[${name}] setRow() ${exp}`, t => {
+		t.plan(3);
+		let matrix = getMatrix();
+		let arr = getArr();
+		let rArray1 = getRandomArray(matrix.width >> 1 > 0 ? matrix.width >> 2 : 1);
+		let rArray2 = getRandomArray(matrix.width);
+		let rArray3 = getRandomArray(matrix.width * 2);
+
+		for (let i = 0; i < matrix.height; i++) {
+			matrix.setRow(i, rArray1);
+			arrSetRow(arr, i, rArray1);
+		}
+		t.deepEqual(matrix2Array(matrix), arr);
+		for (let i = 0; i < matrix.height; i++) {
+			matrix.setRow(i, rArray2);
+			arrSetRow(arr, i, rArray2);
+		}
+		t.deepEqual(matrix2Array(matrix), arr);
+		for (let i = 0; i < matrix.height; i++) {
+			matrix.setRow(i, rArray3);
+			arrSetRow(arr, i, rArray3);
+		}
+		t.deepEqual(matrix2Array(matrix), arr);
+	});
+	test.serial(`[${name}] setColumn() ${exp}`, t => {
+		t.plan(3);
+		let matrix = getMatrix();
+		let arr = getArr();
+		let rArray1 = getRandomArray(matrix.width >> 1 > 0 ? matrix.width >> 2 : 1);
+		let rArray2 = getRandomArray(matrix.width);
+		let rArray3 = getRandomArray(matrix.width * 2);
+		for (let i = 0; i < matrix.width; i++) {
+			matrix.setColumn(i, rArray1);
+			arrSetColumn(arr, i, rArray1);
+		}
+		t.deepEqual(matrix2Array(matrix), arr);
+		for (let i = 0; i < matrix.width; i++) {
+			matrix.setColumn(i, rArray2);
+			arrSetColumn(arr, i, rArray2);
+		}
+		t.deepEqual(matrix2Array(matrix), arr);
+		for (let i = 0; i < matrix.width; i++) {
+			matrix.setColumn(i, rArray3);
+			arrSetColumn(arr, i, rArray3);
+		}
+		t.deepEqual(matrix2Array(matrix), arr);
+	});
+	test.serial(`[${name}] fillRow() ${exp}`, t => {
+		let matrix = getMatrix();
+		let arr = getArr();
+		t.plan(matrix.height);
+		for (let i = 0; i < matrix.height; i++) {
+			var v = Math.random() > 0.5 ? 1 : 0;
+			matrix.fillRow(i, v);
+			arr[i].fill(v);
+			t.deepEqual(matrix2Array(matrix), arr);
+		}
+	});
+	test.serial(`[${name}] fillColumn() ${exp}`, t => {
+		let matrix = getMatrix();
+		let arr = getArr();
+		t.plan(matrix.width);
+		for (let i = 0; i < matrix.width; i++) {
+			var v = Math.random() > 0.5 ? 1 : 0;
+			matrix.fillColumn(i, v);
+			arr = arr.map(r => {
+				r[i] = v;
+				return r;
+			});
+			t.deepEqual(matrix2Array(matrix), arr);
+		}
+	});
+
+	test.serial(`[${name}] input output ${exp}`,t =>{
+		t.plan(3);
+		let matrix = getMatrix();
+		let base64str = Matrix.output(matrix);
+		let base64str1 = matrix.output();
+		let matrix1 = Matrix.input(base64str);
+		t.is(typeof base64str,'string');
+		t.is(base64str,base64str1);
+		t.deepEqual(matrix2Array(matrix),matrix2Array(matrix1))
 	});
 }
 
-function testOther(Matrix){
+function testOther(Matrix) {
 	let name = Matrix['className'] || Matrix['name'];
 	test(`[${name}] '.showView'`, t => {
 		let matrix = new Matrix(5, 5, 0);
@@ -329,9 +475,9 @@ function testOther(Matrix){
 		});
 	});
 	test(`[${name}] getPrototypeData `, t => {
-		let matrix = new Matrix(5,5);
-		t.is(typeof matrix.getPrototypeData(),'object')
-	})
+		let matrix = new Matrix(5, 5);
+		t.is(typeof matrix.getPrototypeData(), 'object');
+	});
 }
 
 function testFn(Matrix) {
@@ -480,7 +626,7 @@ function testFn(Matrix) {
 			diff(matrix.getRow(4), row);
 		});
 	});
-	
+
 	test.serial(`[${name}] .setRow`, t => {
 		t.plan(4);
 		let x = 30,
@@ -521,7 +667,7 @@ function testFn(Matrix) {
 		t.plan(3);
 		let matrix = new Matrix(5, 5, 1);
 		let row = [1, 0, 1, 1, 0];
-		
+
 		// t.is(matrix.getRow(0),1)
 		t.notThrows(() => {
 			all1(matrix.getColumn(0));
@@ -537,7 +683,7 @@ function testFn(Matrix) {
 			diff(matrix.getColumn(4), row);
 		});
 	});
-	
+
 	test.serial(`[${name}] .setColumn`, t => {
 		t.plan(4);
 		let matrix = new Matrix(5, 5, 1);
@@ -565,7 +711,7 @@ function testFn(Matrix) {
 			});
 		});
 	});
-	
+
 	test.serial(`[${name}] .cellForEach`, t => {
 		t.plan(4);
 		let width = 5,
@@ -601,17 +747,14 @@ function testFn(Matrix) {
 		});
 		t.is(count, width * height);
 	});
-
-	
 }
 
-
 // testFn(allClass[3]);
-allClass.forEach(C=>{
+allClass.forEach(C => {
 	testFn(C);
 	noSize(C);
-	testSize(C,view11,'1*1');
-	testSize(C,view22,'2*2');
-	testSize(C,view55,'5*5');
+	testSize(C, view11, '1*1');
+	testSize(C, view22, '2*2');
+	testSize(C, view55, '5*5');
 	testOther(C);
 });

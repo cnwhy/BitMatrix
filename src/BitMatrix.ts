@@ -1,5 +1,4 @@
 import Matrix from './Matrix';
-import { encode as b64Encode, decode as b46Decode } from './Base64';
 
 function Bit2Array(byte: number, start: number = 0, end?: number) {
 	let arr = [];
@@ -64,8 +63,9 @@ class BitMatrix extends Matrix {
 			if (value) {
 				_data[start.index] |= (2 ** width - 1) << start.offset;
 			} else {
-				_data[start.index] &=
-					((2 ** start.offset - 1) << (8 - start.offset)) | (2 ** (8 - end.offset - 1) - 1);
+				// _data[start.index] &=
+				// 	(2 ** start.offset - 1) | ((2 ** (8 - end.offset - 1) - 1) << (end.offset + 1));
+				_data[start.index] &= 0xff >> (8 - start.offset) | 0xFF << (end.offset + 1);
 			}
 			return;
 		}
@@ -131,6 +131,10 @@ class BitMatrix extends Matrix {
 		let start = this.getIndex(0, row);
 		let end = this.getIndex(width - 1, row);
 		let i = 0;
+		if (start.index === end.index) {
+			_data[start.index] = ArraySetBit(_data[start.index], value, start.offset, start.offset + width);
+			return;
+		}
 		_data[start.index] = ArraySetBit(_data[start.index], value, start.offset);
 		i = 8 - start.offset;
 		for (let index = start.index + 1; index < end.index && i < value.length; index++) {
@@ -154,9 +158,8 @@ class BitMatrix extends Matrix {
 	setColumn(column: number, value: any[]) {
 		this.Validator_column(column);
 		let { height } = this;
-		let h = 0;
 		let i = 0;
-		while (i < value.length && h < height) {
+		while (i < value.length && i < height) {
 			this.set(column, i, value[i++]);
 		}
 	}
@@ -215,6 +218,5 @@ class BitMatrix extends Matrix {
 	// 	let n = offset == undefined ? index + 1 : index * 8 + offset + 1;
 	// 	return [(n - 1) % this.width, Math.ceil(n / this.width) - 1];
 	// }
-
 }
 export default BitMatrix;

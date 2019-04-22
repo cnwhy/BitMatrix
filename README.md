@@ -38,17 +38,17 @@ AnyMatrixUseObject | Object | any
 │ (index) │      className       │  heapUsed  │  external  │    sum     │
 ├─────────┼──────────────────────┼────────────┼────────────┼────────────┤
 │    0    │     'BitMatrix'      │  '0.77MB'  │  '2.38MB'  │  '3.16MB'  │
-│    1    │     'Int8Matrix'     │  '0.81MB'  │ '19.07MB'  │ '19.89MB'  │
-│    2    │    'Uint8Matrix'     │  '0.68MB'  │ '19.07MB'  │ '19.75MB'  │
-│    3    │ 'Uint8ClampedMatrix' │  '0.68MB'  │ '19.07MB'  │ '19.75MB'  │
-│    4    │    'Int16Matrix'     │  '0.68MB'  │ '38.15MB'  │ '38.83MB'  │
+│    1    │     'Int8Matrix'     │  '0.87MB'  │ '19.07MB'  │ '19.94MB'  │
+│    2    │    'Uint8Matrix'     │  '0.82MB'  │ '19.07MB'  │ '19.89MB'  │
+│    3    │ 'Uint8ClampedMatrix' │  '0.82MB'  │ '19.07MB'  │ '19.89MB'  │
+│    4    │    'Int16Matrix'     │  '0.81MB'  │ '38.15MB'  │ '38.96MB'  │
 │    5    │    'Uint16Matrix'    │  '0.68MB'  │ '38.15MB'  │ '38.83MB'  │
-│    6    │    'Int32Matrix'     │  '0.49MB'  │ '76.29MB'  │ '76.79MB'  │
-│    7    │    'Uint32Matrix'    │  '0.50MB'  │ '76.29MB'  │ '76.79MB'  │
+│    6    │    'Int32Matrix'     │  '0.53MB'  │ '76.29MB'  │ '76.82MB'  │
+│    7    │    'Uint32Matrix'    │  '0.49MB'  │ '76.29MB'  │ '76.79MB'  │
 │    8    │   'Float32Matrix'    │  '0.53MB'  │ '76.29MB'  │ '76.82MB'  │
-│    9    │   'Float64Matrix'    │  '0.50MB'  │ '152.59MB' │ '153.09MB' │
-│   10    │     'AnyMatrix'      │ '153.23MB' │  '0.00MB'  │ '153.23MB' │
-│   11    │ 'AnyMatrixUseObject' │ '159.04MB' │  '0.00MB'  │ '159.04MB' │
+│    9    │   'Float64Matrix'    │  '0.49MB'  │ '152.59MB' │ '153.08MB' │
+│   10    │     'AnyMatrix'      │ '153.59MB' │  '0.00MB'  │ '153.59MB' │
+│   11    │ 'AnyMatrixUseObject' │ '154.00MB' │  '0.00MB'  │ '154.00MB' │
 └─────────┴──────────────────────┴────────────┴────────────┴────────────┘
 ```
 
@@ -139,7 +139,20 @@ class Matrix {
 推荐使用矩阵对像的 `clong()` 方法;  
 
 #### 导入导出 
-导入(`input()`),导出(`output()`)使用base64 为媒介;
+> 为获取最大兼容,选用 `base64` 为媒介进行导入(`input()`), 导出(`output()`);
+
+**二进制结构说明(暂定):**  
+前9个字节为描述字节, 后面为数据字节;
+<table border="1">
+<tr><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td></td><td></td></tr>
+<tr>
+	<td colspan=4>Uint32LE(width)</td>
+	<td colspan=4>Uint32LE(height)</td>
+	<td colspan=1>Uint8(typeMark)</td>
+	<td colspan=12>...(data)</td>
+</tr>
+</table>
+
 
 ```js
 import BitMatrix from 'bitmatrix';

@@ -1,6 +1,6 @@
 {
   "name": "bitmatrix",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Low-cost dot matrix Class",
   "main": "lib/BitMatrix.js",
   "module": "es/BitMatrix.js",
@@ -8,13 +8,15 @@
     "*.js",
     "*.ts",
     "lib",
-    "src"
+    "es",
+    "src",
+    "tsconfig.json"
   ],
   "scripts": {
     "compile": "npm run compile-umd && npm run compile-es",
     "compile-umd": "rm -rf lib && tsc -t es3 -m commonjs --outDir lib",
     "compile-es": "rm -rf es && tsc -t es2015 -m es2015 --outDir es",
-    "test": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ava --fail-fast test/ava/test.ts",
+    "test": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ava --fail-fast test/ava",
     "test-cov": "nyc npm run test",
     "test-memory": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ts-node test/memory",
     "test-benchmark": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ts-node test/benchmark",

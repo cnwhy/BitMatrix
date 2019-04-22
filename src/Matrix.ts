@@ -178,6 +178,9 @@ abstract class Matrix {
 		// 	})
 		// });
 	}
+	output(){
+		return Matrix.output(this);
+	}
 }
 namespace Matrix {
 	export interface MatrixLike {
