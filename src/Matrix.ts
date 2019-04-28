@@ -145,7 +145,7 @@ abstract class Matrix {
 		}
 	}
 	static input<T extends Matrix>(this: { new (a, b, c?): T },base64: string) {
-		let barray: Uint8Array = Base64.decode(base64);
+		let barray:any = Base64.decode(base64);
 		let baseView = new DataView(barray.buffer);
 		let width = baseView.getUint32(0);
 		let height = baseView.getUint32(4);
