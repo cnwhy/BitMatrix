@@ -1,6 +1,6 @@
 {
   "name": "bitmatrix",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Low-cost dot matrix Class",
   "main": "lib/BitMatrix.js",
   "module": "es/BitMatrix.js",
@@ -13,14 +13,16 @@
     "tsconfig.json"
   ],
   "scripts": {
+    "clean": "rimraf lib es",
+    "precompile": "npm run clean",
     "compile": "npm run compile-umd && npm run compile-es",
-    "compile-umd": "rm -rf lib && tsc -t es3 -m commonjs --outDir lib",
-    "compile-es": "rm -rf es && tsc -t es2015 -m es2015 --outDir es",
+    "compile-umd": "tsc -t es3 -m commonjs --outDir lib",
+    "compile-es": "tsc -t es2015 -m es2015 --outDir es",
     "test": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ava --fail-fast test/ava",
     "test-cov": "nyc npm run test",
     "test-memory": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ts-node test/memory",
     "test-benchmark": "cross-env TS_NODE_PROJECT='./test/tsconfig.json' ts-node test/benchmark",
-    "prepublish": "npm run test && npm run compile"
+    "prepack": "npm run test && npm run compile"
   },
   "author": "cnwhy",
   "repository": {
@@ -42,6 +44,7 @@
     "jslitmus": "^0.1.0",
     "microtime": "^3.0.0",
     "nyc": "^13.3.0",
+    "rimraf": "^2.6.3",
     "rollup": "^1.9.3",
     "rollup-plugin-typescript2": "^0.20.1",
     "ts-node": "^8.0.3",
@@ -75,5 +78,8 @@
     ],
     "sourceMap": true,
     "instrument": true
+  },
+  "dependencies": {
+    "@cnwhy/base64": "^0.1.1"
   }
 }

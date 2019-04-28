@@ -2,7 +2,6 @@ import BitMatrix from './BitMatrix';
 import AnyMatrix from './AnyMatrix';
 import AnyMatrixUseObject from './AnyMatrixUseObject';
 import Matrix from './AnyMatrix';
-import { encode as b64Encode, decode as b46Decode } from './Base64';
 
 // import AnyMatrixUseMap from './AnyMatrixUseMap';
 const getTypedMatrixClass = Matrix.getTypedMatrixClass.bind(null,AnyMatrix);

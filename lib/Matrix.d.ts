@@ -28,7 +28,7 @@ declare abstract class Matrix {
     }, arrayLike: any[], width?: number): T;
     static input<T extends Matrix>(this: {
         new (a: any, b: any, c?: any): T;
-    }, str: string): T;
+    }, base64: string): T;
     static output(matrix: Matrix): string;
     output(): string;
 }

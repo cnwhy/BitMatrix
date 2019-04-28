@@ -141,8 +141,8 @@ class Matrix {
 #### 导入导出 
 > 为获取最大兼容,选用 `base64` 为媒介进行导入(`input()`), 导出(`output()`);
 
-**二进制结构说明(暂定):**  
-前9个字节为描述字节, 后面为数据字节;
+**二进制结构(暂定):**  
+前9个字节为描述字节, 后面为数据;
 <table border="1">
 <tr><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td></td><td></td></tr>
 <tr>
@@ -194,6 +194,6 @@ AAAABwAAAAcDCATij0AgAA==
 - .copy() .copyTo()
 	- [ ] copy()
 	- [ ] copyTo()
-- 装箱, 拆箱;
-	- [ ] typeBuffer Matrix 转 base64
-	- [ ] base64 转 Matrix 
+- 导出, 导入;
+	- [x] typeBuffer Matrix 转 base64
+	- [x] base64 转 Matrix 

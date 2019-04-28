@@ -1,5 +1,5 @@
 import { isInteger } from './Validator';
-import { encode as b64Encode, decode as b46Decode, utf8Decode } from './Base64';
+import * as Base64 from '@cnwhy/base64';
 
 const dataMark = [
 	'[object Object]',
@@ -144,8 +144,8 @@ abstract class Matrix {
 			}
 		}
 	}
-	static input<T extends Matrix>(this: { new (a, b, c?): T },str: string) {
-		let barray: Uint8Array = b46Decode(str);
+	static input<T extends Matrix>(this: { new (a, b, c?): T },base64: string) {
+		let barray: Uint8Array = Base64.decode(base64);
 		let baseView = new DataView(barray.buffer);
 		let width = baseView.getUint32(0);
 		let height = baseView.getUint32(4);
@@ -157,11 +157,12 @@ abstract class Matrix {
 		if(type >= 2 && DataType){
 			matrix._data = new DataType(barray.buffer.slice(9));
 		}else{
-			matrix._data = JSON.parse(utf8Decode(barray.buffer.slice(9)));
+			matrix._data = JSON.parse(Base64.utf8Decode(barray.buffer.slice(9)));
 		}
 		return matrix;
 	}
 	static output(matrix: Matrix) {
+		if(!(matrix instanceof Matrix)) throw new TypeError('The parameter must be a Matrix type')
 		let { width, height, total } = matrix;
 		let type = dataMark.indexOf(Object.prototype.toString.call(matrix._data));
 		let baseBuffer = new ArrayBuffer(9);
@@ -171,12 +172,8 @@ abstract class Matrix {
 		baseView.setUint32(0, width);
 		baseView.setUint32(4, height);
 		baseView.setUint8(8, type);
-		return b64Encode(baseBuffer) + b64Encode(data);
-		// Object.create(this, {
-		// 	_data: Object.assign(Object.getOwnPropertyDescriptor(this, '_data'), {
-		// 		value: new Uint8Array(this._data.buffer.slice(0))
-		// 	})
-		// });
+		// 由于是baseBuffer是占9byte base64编码时可以直接拼接
+		return Base64.encode(baseBuffer) + Base64.encode(data);
 	}
 	output(){
 		return Matrix.output(this);
