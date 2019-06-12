@@ -23,13 +23,9 @@ function ArraySetBit(byte: number, arr: any[], start = 0, end?: number) {
 		i++, index++;
 	}
 	return byte;
-	// for(let i = start; i< end; i++){
-	// 	if(_arr)
-	// }
 }
 
 class BitMatrix extends Matrix {
-	// protected _data: ArrayBuffer;
 	protected _data: Uint8Array;
 	constructor(width: number, height: number, defaultValue = 0) {
 		super(width, height);
@@ -200,23 +196,5 @@ class BitMatrix extends Matrix {
 			offset: (n - 1) % 8 //76543210,fedcba98
 		};
 	}
-	/**
-	 * 创建一个类
-	 *
-	 * @static
-	 * @param {any[]} arrayLike
-	 * @memberof BitMatrix
-	 */
-	// static from(arrayLike:any[][]): Matrix;
-	// static from(arrayLike:any[],width:number): Matrix;//arrayLike[, mapFn[, thisArg]
-	// static from(arrayLike:any[],width?:number){//arrayLike[, mapFn[, thisArg]
-	// 	return Matrix.from.call(this,arrayLike,width);
-	// }
-	// private getPosition(a: number): number[];
-	// private getPosition(a: number, b: number): number[];
-	// private getPosition(index: number, offset?: number): number[] {
-	// 	let n = offset == undefined ? index + 1 : index * 8 + offset + 1;
-	// 	return [(n - 1) % this.width, Math.ceil(n / this.width) - 1];
-	// }
 }
 export default BitMatrix;

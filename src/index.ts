@@ -3,6 +3,7 @@ import AnyMatrix from './AnyMatrix';
 import AnyMatrixUseObject from './AnyMatrixUseObject';
 import Matrix from './AnyMatrix';
 
+// Map 太占资源, 内存测试都爆内存, 移出算了
 // import AnyMatrixUseMap from './AnyMatrixUseMap';
 const getTypedMatrixClass = Matrix.getTypedMatrixClass.bind(null,AnyMatrix);
 
@@ -15,24 +16,11 @@ const Int32Matrix = getTypedMatrixClass(Int32Array);
 const Uint32Matrix = getTypedMatrixClass(Uint32Array);
 const Float32Matrix = getTypedMatrixClass(Float32Array);
 const Float64Matrix = getTypedMatrixClass(Float64Array);
-
-const tool = {
-	
-}
-// function outInBase64(str:string) {
-// 	let barray:Uint8Array = b46Decode(str);
-
-// }
-// function outPutBase64(matrix:Matrix) {
-// 	let type = 
-// }
-
+export default BitMatrix;
 export {
-	BitMatrix,
-	BitMatrix as ByteMatrix,
 	AnyMatrix,
 	AnyMatrixUseObject,
-	// AnyMatrixUseMap,
+	BitMatrix,
 	Int8Matrix,
 	Uint8Matrix,
 	Uint8ClampedMatrix,
@@ -41,5 +29,6 @@ export {
 	Int32Matrix,
 	Uint32Matrix,
 	Float32Matrix,
-	Float64Matrix
+	Float64Matrix,
+	Uint8Matrix as ByteMatrix,
 };
