@@ -154,54 +154,48 @@ AAAABwAAAAcDCATij0AgAA==
 > 基于 `BufferArray` 只能运行于支持 `ES2015` 的环境;
 
 ## 性能测试
-### 内存占用
+### 内存占用 `node v10.13.0`
 从以下的表格看, 是符合预期的.
 ```
-用 1 填充 2000 个 100*100 矩阵 内存占用情况:
-┌─────────┬──────────────────────┬────────────┬────────────┬────────────┐
-│ (index) │      className       │  heapUsed  │  external  │    sum     │
-├─────────┼──────────────────────┼────────────┼────────────┼────────────┤
-│    0    │     'BitMatrix'      │  '0.77MB'  │  '2.38MB'  │  '3.16MB'  │
-│    1    │     'Int8Matrix'     │  '0.87MB'  │ '19.07MB'  │ '19.94MB'  │
-│    2    │    'Uint8Matrix'     │  '0.82MB'  │ '19.07MB'  │ '19.89MB'  │
-│    3    │ 'Uint8ClampedMatrix' │  '0.82MB'  │ '19.07MB'  │ '19.89MB'  │
-│    4    │    'Int16Matrix'     │  '0.81MB'  │ '38.15MB'  │ '38.96MB'  │
-│    5    │    'Uint16Matrix'    │  '0.68MB'  │ '38.15MB'  │ '38.83MB'  │
-│    6    │    'Int32Matrix'     │  '0.53MB'  │ '76.29MB'  │ '76.82MB'  │
-│    7    │    'Uint32Matrix'    │  '0.49MB'  │ '76.29MB'  │ '76.79MB'  │
-│    8    │   'Float32Matrix'    │  '0.53MB'  │ '76.29MB'  │ '76.82MB'  │
-│    9    │   'Float64Matrix'    │  '0.49MB'  │ '152.59MB' │ '153.08MB' │
-│   10    │     'AnyMatrix'      │ '153.59MB' │  '0.00MB'  │ '153.59MB' │
-│   11    │ 'AnyMatrixUseObject' │ '154.00MB' │  '0.00MB'  │ '154.00MB' │
-└─────────┴──────────────────────┴────────────┴────────────┴────────────┘
+生成 2000 个 100*100 矩阵, 并用 1 填充, 内存及耗时占用情况:
+┌─────────┬──────────────────────┬────────────┬────────────┬──────────────────────┬───────────────────┐
+│ (index) │      className       │  heapUsed  │  external  │         sum          │       time        │
+├─────────┼──────────────────────┼────────────┼────────────┼──────────────────────┼───────────────────┤
+│    0    │     'BitMatrix'      │  '0.77MB'  │  '2.38MB'  │   '3.16MB | 1.91%'   │    '7 | 1.46%'    │
+│    1    │     'Int8Matrix'     │  '0.87MB'  │ '19.07MB'  │  '19.94MB | 12.07%'  │   '16 | 3.33%'    │
+│    2    │    'Uint8Matrix'     │  '0.82MB'  │ '19.07MB'  │  '19.90MB | 12.04%'  │   '14 | 2.92%'    │
+│    3    │ 'Uint8ClampedMatrix' │  '0.82MB'  │ '19.07MB'  │  '19.89MB | 12.04%'  │   '15 | 3.13%'    │
+│    4    │    'Int16Matrix'     │  '0.80MB'  │ '38.15MB'  │  '38.95MB | 23.57%'  │   '17 | 3.54%'    │
+│    5    │    'Uint16Matrix'    │  '0.68MB'  │ '38.15MB'  │  '38.83MB | 23.50%'  │   '19 | 3.96%'    │
+│    6    │    'Int32Matrix'     │  '0.53MB'  │ '76.29MB'  │  '76.82MB | 46.49%'  │  '147 | 30.63%'   │
+│    7    │    'Uint32Matrix'    │  '0.53MB'  │ '76.29MB'  │  '76.82MB | 46.49%'  │  '139 | 28.96%'   │
+│    8    │   'Float32Matrix'    │  '0.53MB'  │ '76.29MB'  │  '76.82MB | 46.49%'  │  '140 | 29.17%'   │
+│    9    │   'Float64Matrix'    │  '0.49MB'  │ '152.59MB' │ '153.08MB | 92.64%'  │  '286 | 59.58%'   │
+│   10    │     'AnyMatrix'      │ '153.61MB' │  '0.00MB'  │ '153.61MB | 92.96%'  │ '2445 | 509.38%'  │
+│   11    │ 'AnyMatrixUseObject' │ '153.75MB' │  '0.00MB'  │ '153.75MB | 93.05%'  │ '6056 | 1261.67%' │
+│   12    │      'number[]'      │ '153.13MB' │  '0.00MB'  │ '153.13MB | 92.67%'  │ '2808 | 585.00%'  │
+│   13    │     'number[][]'     │ '165.24MB' │  '0.00MB'  │ '165.24MB | 100.00%' │  '480 | 100.00%'  │
+└─────────┴──────────────────────┴────────────┴────────────┴──────────────────────┴───────────────────┘
 ```
-> 可执行 `npm run test-memory` 命令测试;
+> 可执行 `npm run test-memory` 命令测试, 获取本结果;
 
-
-### 基准测试
-BitMatrix 虽然要增加`字节`到`位`的处理 但是在测试看来速度还不错.
+### 基准测试 `node v10.13.0`
 ```
-fill BitMatrix x 195,429 ops/sec ±5.24% (82 runs sampled)
-fill Uint8Matrix x 22,878 ops/sec ±6.01% (78 runs sampled)
-fill AnyMatrix x 956 ops/sec ±3.05% (78 runs sampled)
-fill AnyMatrixUseObject x 83.68 ops/sec ±2.66% (69 runs sampled)
-
-set BitMatrix x 8,610,146 ops/sec ±3.74% (82 runs sampled)
-set Uint8Matrix x 15,196,501 ops/sec ±1.75% (84 runs sampled)
-set AnyMatrix x 14,673,531 ops/sec ±1.17% (89 runs sampled)
-set AnyMatrixUseObject x 15,393,786 ops/sec ±0.91% (86 runs sampled)
-
-get BitMatrix x 9,496,652 ops/sec ±2.15% (85 runs sampled)
-get Uint8Matrix x 15,714,307 ops/sec ±2.69% (87 runs sampled)
-get AnyMatrix x 14,934,005 ops/sec ±1.14% (91 runs sampled)
-get AnyMatrixUseObject x 16,632,619 ops/sec ±0.82% (88 runs sampled)
-
-forEach BitMatrix x 720 ops/sec ±2.01% (85 runs sampled)
-forEach Uint8Matrix x 900 ops/sec ±2.68% (83 runs sampled)
-forEach AnyMatrix x 84.17 ops/sec ±0.76% (69 runs sampled)
-forEach AnyMatrixUseObject x 970 ops/sec ±0.49% (91 runs sampled)
+操作同为 1000*1000 矩阵, 基础方法的QPS比较: 
+┌─────────┬─────────────────┬───────────┬─────────────┬─────────────┬─────────────┐
+│ (index) │      name       │   fill    │     get     │     set     │ cellForEach │
+├─────────┼─────────────────┼───────────┼─────────────┼─────────────┼─────────────┤
+│    0    │   'BitMatrix'   │ '210.31K' │ '8194.21K'  │ '6275.51K'  │  '700.17'   │
+│    1    │  'Uint8Matrix'  │ '25.63K'  │ '10969.26K' │ '9658.56K'  │  '991.44'   │
+│    2    │ 'Uint32Matrix'  │  '2.66K'  │ '11844.04K' │ '10304.60K' │  '992.45'   │
+│    3    │ 'Float64Matrix' │  '1.19K'  │ '11845.38K' │ '10639.79K' │  '988.99'   │
+│    4    │   'AnyMatrix'   │  '1.23K'  │ '11453.06K' │ '10560.18K' │  '987.83'   │
+│    5    │   'number[]'    │  '1.15K'  │ '15009.22K' │ '14345.48K' │  '960.72'   │
+│    6    │  'number[][]'   │ '752.19'  │ '12196.47K' │ '11029.79K' │   '1.48K'   │
+└─────────┴─────────────────┴───────────┴─────────────┴─────────────┴─────────────┘
 ```
-> 可执行 `npm run test-memory` 命令测试;
+> `get` 与 `set` 测试都使用了9个点, 所以真实值应该再乘上9;  
+> 可执行 `npm run test-benchmark` 命令, 获取本结果;
 
 
 ## Other

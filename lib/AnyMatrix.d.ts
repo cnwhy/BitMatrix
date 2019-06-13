@@ -14,6 +14,6 @@ declare class AnyMatrix extends Matrix {
     setRow(row: number, value: any[]): void;
     getColumn(column: number): any[];
     setColumn(column: number, value: any[]): void;
-    cellForEach(fn: any): void;
+    cellForEach(fn: (arg0: any, arg1: number, arg2: number) => void): void;
 }
 export default AnyMatrix;

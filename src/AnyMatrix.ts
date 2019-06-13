@@ -88,13 +88,14 @@ class AnyMatrix extends Matrix {
 			index += width;
 		}
 	}
-	cellForEach(fn) {
+	cellForEach(fn: (arg0: any, arg1: number, arg2: number) => void) {
 		let { _data, width, total } = this;
 		let x = 0;
 		let y = 0;
+
 		for (let i = 0; i < total; i++) {
 			fn(_data[i], x, y);
-			if (++x >= width) {
+			if (++x == width) {
 				x = 0;
 				y++;
 			}

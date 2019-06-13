@@ -39,15 +39,5 @@ declare namespace Matrix {
         get(x: number, y: number): any;
         cellForEach?(callback: (v: any, x: number, y: number) => any): any;
     }
-    function getTypedMatrixClass<T extends MimeTypeArray>(AnyMatrix: any, TypedArrayClass: any): {
-        new (): {
-            [x: string]: any;
-            _data: any;
-            _dataInit(): void;
-            clone(): any;
-        };
-        [x: string]: any;
-        className: string;
-    };
 }
 export default Matrix;
