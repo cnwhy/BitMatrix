@@ -37,6 +37,7 @@ npm i bitmatrix
 
 ## 使用
 **nodejs**
+
 ```js
 const BitMatrix = require('bitmatrix').BitMatrix;
 //使用其它的矩阵类
@@ -46,6 +47,7 @@ console.log(bm.showView());
 ```
 
 **ES2015**
+
 ```js
 // 默认导出 BitMatrix 类
 import BitMatrix from 'bitmatrix'; 
@@ -82,11 +84,11 @@ class Matrix {
 	set(x: number, y: number, value: any);
 	// 读取一行 返回 Array
 	getRow(y: number): any[];
-	// 设置一行 返回 Array
+	// 设置一行
 	setRow(y: number, row:any[]);
 	// 读取一列 返回 Array
 	getColumn(x: number): any[];
-	// 设置一列 返回 Array
+	// 设置一列
 	setColumn(x: number, column: any[]);
 	// 暴露矩阵原型数据对像, 如果你不清楚是什么, 请勿使用
 	getPrototypeData():Object;
@@ -99,7 +101,7 @@ class Matrix {
 	// 用现有数据创建矩阵
 	static from(arr:[][]): Matrix;
 	static from(arr:[],width:number): Matrix;
-	// 用现有矩阵对像 创建一个此类型的矩阵对象 注意区别clone(); from可以创建不能类型的矩阵
+	// 用现有矩阵对像 创建一个此类型的矩阵对象 注意区别clone(); from可以创建不同类型的矩阵
 	static from(matrix:Matrix,callback:(value: any, x: number, y: number)=>any,thisArg): Matrix;
 	// 通过base64导出矩阵,便于存储
 	static output(matrix:Matrix): string;
