@@ -2,3 +2,6 @@
 .vscode
 coverage
 *.tgz
+node_modules
+lib
+dist

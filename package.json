@@ -82,6 +82,6 @@
     "instrument": true
   },
   "dependencies": {
-    "@cnwhy/base64": "^0.1.1"
+    "@cnwhy/base64": "^1.0.0"
   }
 }

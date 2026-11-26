@@ -1,0 +1,57 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - 'v*'
+  # 支持在 Actions 页面手动触发（使用所选分支/标签的代码发布）
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  # npm provenance（来源证明）需要 OIDC
+  id-token: write
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Trusted Publishing(OIDC) 要求 npm CLI >= 11.5.1 / Node >= 22.14，Node 24 自带 npm 11.6+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      # 防止 tag 与 package.json 版本不一致导致发错版本
+      - name: Check tag matches package.json version
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          PKG="$(node -p "require('./package.json').version")"
+          echo "tag=$TAG package.json=$PKG"
+          if [ "$TAG" != "$PKG" ]; then
+            echo "::error::tag v$TAG 与 package.json version $PKG 不一致"
+            exit 1
+          fi
+
+      # 发布前跑一遍测试
+      - name: Test
+        run: npm test
+
+      # 通过 OIDC Trusted Publishing 发布：无需任何 token secret
+      # 发布时自动触发 prepack（test + compile），provenance 也会自动生成
+      # 若想回退成 granular token 方式，改成：
+      #   run: npm publish --access public
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish
+        run: npm publish --access public
