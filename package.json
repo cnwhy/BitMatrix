@@ -1,6 +1,6 @@
 {
   "name": "bitmatrix",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Low-cost dot matrix Class",
   "main": "dist/BitMatrix.js",
   "browser": "dist/BitMatrix.umd.js",
