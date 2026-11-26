@@ -20,13 +20,15 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Trusted Publishing(OIDC) 要求 npm CLI >= 11.5.1 / Node >= 22.14，Node 24 自带 npm 11.6+
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '24'
           registry-url: https://registry.npmjs.org
+          # 不用依赖缓存，避免缓存内容影响构建的可重现性与 provenance
+          package-manager-cache: false
 
       - name: Install dependencies
         run: npm install --no-audit --no-fund
