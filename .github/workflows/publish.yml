@@ -6,6 +6,11 @@ on:
       - 'v*'
   # 支持在 Actions 页面手动触发（使用所选分支/标签的代码发布）
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '只构建打包，不真正发布（用于验证 workflow）'
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -56,4 +61,4 @@ jobs:
       #   env:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Publish
-        run: npm publish --access public
+        run: npm publish --access public ${{ inputs.dry_run && '--dry-run' || '' }}
