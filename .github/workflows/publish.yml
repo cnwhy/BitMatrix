@@ -61,4 +61,18 @@ jobs:
       #   env:
       #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Publish
-        run: npm publish --access public ${{ inputs.dry_run && '--dry-run' || '' }}
+        env:
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          PKG="$(node -p "require('./package.json').name")"
+          VER="$(node -p "require('./package.json').version")"
+          if [ "$DRY_RUN" = "true" ]; then
+            if npm view "$PKG@$VER" version >/dev/null 2>&1; then
+              echo "::notice::$PKG@$VER 已存在于 npm，跳过上传，仅验证打包链路"
+              npm pack --dry-run >/dev/null && echo "打包成功：$PKG@$VER"
+            else
+              npm publish --access public --dry-run
+            fi
+          else
+            npm publish --access public
+          fi
